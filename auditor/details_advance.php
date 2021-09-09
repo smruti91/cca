@@ -53,6 +53,13 @@ border: 2px solid #fff;
 .lbl{
   text-align: left;
 }
+#dtl_advnc{
+  counter-reset: serial-number;  /* Set the serial number counter to 0 */
+}
+#dtl_advnc td:first-child:before {
+    counter-increment: serial-number;  /* Increment the serial number counter */
+    content: counter(serial-number);  /* Display the counter */
+    }
 </style>
 <div id="wrapper">
   <?php include "leftpanel.php";?>
@@ -124,12 +131,12 @@ border: 2px solid #fff;
                                   <th>Amount outstanding (Audit)</th>
                                   <th>Amount outstanding (Cash Book)</th>
                                   <th>Difference</th>
-                                  <th><button class="btn btn-success" onclick="create_tr('dtl_advnc')" >+</button></th>
+                                  <th><button class="btn btn-success" onclick="create_tr('dtl_advnc')" ><i class="fa fa-plus" aria-hidden="true"></i></button></th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td> <input type="text" class="form-control" name="sl.No" value="1"></td>
+                                    <td>&nbsp;</td>
                                     <td> <input type="text" class="form-control" name="advnc_outstanding_asOn"> </td>
                                     <td> <input type="text" class="form-control" name="cashBook"> </td>
                                     <td> <input type="text" class="form-control" name="amut_outStanding"> </td>
@@ -139,7 +146,7 @@ border: 2px solid #fff;
                                     <td> <input type="text" class="form-control" name="amut_outStanding_audit"> </td>
                                     <td> <input type="text" class="form-control" name="amut_outStanding_cashBook"> </td>
                                     <td> <input type="text" class="form-control" name="difference"> </td>
-                                    <td> <button class="btn btn-danger" onclick="remove_tr(this)" >-</button></td>
+                                    <td> <button class="btn btn-danger" onclick="remove_tr(this)" ><i class="fa fa-trash" aria-hidden="true"></button></td>
 
                                   </tr>
                                 </tbody>
@@ -252,33 +259,14 @@ window.setTimeout(function () {
 } 
 
 
-  var count = 0;
-  function create_tr(table_id){
-    let table = document.getElementById(table_id);
-        tbody   = table.lastElementChild;
-        tr    = tbody.lastElementChild;
-        tr_clone   = tr.cloneNode(true);
-        //console.log(table);
-
-     tbody.append(tr_clone);
-
-     clean_tr(tbody.lastElementChild);
+  
+  function create_tr(){
+    
+      var data = $("#dtl_advnc tr:eq(1)").clone(true).appendTo("#dtl_advnc");
+        data.find("input").val('');
     
   }
 
-  function clean_tr(lastTr){
-   
-    let children = lastTr.children;
-    
-      children = Array.isArray(children) ? children : Object.values(children);
-       //console.log(children[0].value);
-     children.forEach( x=> {
-      if( x !== lastTr.lastElementChild ){
-        x.firstElementChild.value = '';
-          console.log(x);
-      }
-     } )
-  }
 
 function remove_tr(This){
   let tr = This.closest('tr');
