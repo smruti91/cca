@@ -147,11 +147,14 @@ height:100%;
                             <td style="text-align:left;"><?php echo $res_rowsubhead['para_head']; ?></td>
                             <td> &nbsp;</td>
                             <?php
-							    if($res_rowsubhead['id'] == 9){
+							                 if($res_rowsubhead['id'] == 9){
                                    $table = 'cca_para_2a';
                                 }
                                 if($res_rowsubhead['id'] == 10){
                                    $table = 'cca_para_2b';
+                                }
+                                if($res_rowsubhead['id'] == 13){
+                                   $table = 'cca_para_c';
                                 }
                                 
                          $sql_para  = "SELECT * FROM ".$table." WHERE paragraph_id = '".$res_rowsubhead['id']."'  AND mngplan_id = '".$manageplan_id."' " ; 
