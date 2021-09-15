@@ -4,7 +4,7 @@
    include("../common_functions.php");
 
   // print_r($_SESSION);
-    print_r($_POST); exit;
+    //print_r($_POST); exit;
 
      $data =  extract($_POST);
     //echo count($audit_type);

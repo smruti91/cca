@@ -231,19 +231,24 @@ window.setTimeout(function () {
 }, 3000);
 } 
 
-
-  
   function create_tr(){
       
      var num = Math.random().toString(16).slice(2)
-      var counter = 1;
-     var data = $("#dtl_advnc tr:eq(1)").clone(true).attr( 'id',  num ).appendTo("#dtl_advnc");
+     
+     var data = $("#dtl_advnc tr:eq(1)").clone(true).appendTo("#dtl_advnc");
     // console.log(data);
-        data.find("input").val('');
+         data.find("input").val('');
+         data.find("input").prop('id','test_'+num);
+        //console.log(data.find("input").length);
 
-        //.attr( 'id', this.id + '_' + num )
-    
+       // var nodes = document.querySelectorAll(".test");
+       
+       // for(var i = 0; i < nodes.length; i++) {
+       //       nodes[i].setAttribute("id", "test_"+i);
+       //     }
+      
   }
+ 
 
 function remove_tr(This){
   let tr = This.closest('tr');
@@ -258,27 +263,30 @@ function remove_tr(This){
  
 }
 
-// $('.outStanding_cashBook').on( 'keyup' function(){
-
-//     console.log(123);
-// })
 
 $('.outStanding_cashBook').keyup(function(event) {
   
-        //alert('You released a key');
-        // var trclass = $(this).parent();
-        // var r1 = $(this).closest(".outStanding_cashBook");
-        // console.log(r1);
+       
+        var currentRow =  $(this).closest("tr");
+        var col1 = currentRow.find(".amut_outStanding_audit").val();
 
-       var amt_audit =  $('.outStanding_audit').val();
-       var amt_cashbook = $('.outStanding_cashBook').val();
-       var diff = amt_audit - amt_cashbook;
-        console.log(amt_audit - amt_cashbook);
+        var col2 = currentRow.find(".outStanding_cashBook").val();
 
-        $('.difference').val(diff);
+        var diff = col1 - col2;
+     
+        currentRow.find(".difference").val(diff);
 
     });
 
+$('#dtl_advnc tr').each(function(i){
 
+     if(i==0) return true;
+
+     var tr = $(this);
+     var num1 = parseInt($('td',tr).eq(7).find(".amut_outStanding_audit").val());
+     var num2 = parseInt($('td',tr).eq(8).find(".outStanding_cashBook").val() );
+     
+     $('td',tr).eq(9).find(".difference").val(num1 - num2);
+});  
 
 </script>
