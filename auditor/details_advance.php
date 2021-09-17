@@ -154,6 +154,7 @@ border: 2px solid #fff;
 
                                       ?>
                                        <input type="hidden"  name="update" value="Update" />
+
                                       <input type="submit" class="btn btn-primary" value="Update" />
                                    <?php
 
@@ -170,6 +171,7 @@ border: 2px solid #fff;
 
                             
                           </form>
+                          
                      
                      </div>
               
@@ -239,6 +241,7 @@ window.setTimeout(function () {
     // console.log(data);
          data.find("input").val('');
          data.find("input").prop('id','test_'+num);
+         data.find("a").prop('id','0');
         //console.log(data.find("input").length);
 
        // var nodes = document.querySelectorAll(".test");
@@ -249,11 +252,46 @@ window.setTimeout(function () {
       
   }
  
+ function remove(id){
+  
+   var ele = document.getElementById("0");
+       //alert();
+    if(id == 0){
+         remove_tr(ele);
+     
+    }
+    else{
+        
+      $('#deleteAdvanceModal_'+id).modal()
+      
+
+
+    }
+    
+ }
+
+ function delete_record(id){
+        var $ele = $("#deleteAdvanceModal_"+id).parent().parent();
+      $.post('ajax_details_advance.php',{action:'delete',edit_id:id },
+      function(res){
+        console.log(res);
+        if(res=='success'){
+            $("#deleteAdvanceModal_"+id).hide();
+            $(".modal-backdrop").hide();
+             $ele.fadeOut().remove();
+           sessionStorage.setItem("type", "error");
+           sessionStorage.setItem("message", "Record Deleted Successfully");
+
+            window.location.reload();
+        }
+      } );
+ }
+
 
 function remove_tr(This){
   let tr = This.closest('tr');
     
-
+    console.log(tr);
    if(This.closest('tbody').childElementCount == 1 ){
       alert('You can`t delete this row');
    }
@@ -287,6 +325,24 @@ $('#dtl_advnc tr').each(function(i){
      var num2 = parseInt($('td',tr).eq(8).find(".outStanding_cashBook").val() );
      
      $('td',tr).eq(9).find(".difference").val(num1 - num2);
-});  
+});
+
+function delete_record(id){
+ //var $ele = $("#deleteComplainceModal_"+id).parent().parent();
+  $.post('ajax_details_advance.php',{action:'delete',edit_id:id },
+  function(res){
+    console.log(res);
+    if(res=='success'){
+       // $("#deleteEmployeeModal_"+id).hide();
+       // $(".modal-backdrop").hide();
+       // $ele.fadeOut().remove();
+       sessionStorage.setItem("type", "error");
+       sessionStorage.setItem("message", "Record Deleted Successfully");
+
+        window.location.reload();
+    }
+  } );
+}
+
 
 </script>
