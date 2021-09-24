@@ -156,6 +156,12 @@ height:100%;
                                 if($res_rowsubhead['id'] == 13){
                                    $table = 'cca_para_c';
                                 }
+                                if($res_rowsubhead['id'] == 14){
+                                   $table = 'cca_para_c1';
+                                }
+                                if($res_rowsubhead['id'] == 15){
+                                   $table = 'cca_para_d';
+                                }
                                 
                          $sql_para  = "SELECT * FROM ".$table." WHERE paragraph_id = '".$res_rowsubhead['id']."'  AND mngplan_id = '".$manageplan_id."' " ; 
                          
