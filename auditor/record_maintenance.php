@@ -17,9 +17,10 @@ if(isset($_POST['para_id'])){
    $para_id = $_POST['para_id'] ;
    $_SESSION['paraid']=$para_id;
 }
+
 //$_SESSION['save_id'] = '';
 //echo $para_id;
-print_r($_SESSION);
+//print_r($_SESSION);
 if (isset($_SESSION['mngplan_id'])){
 $manageplan_id=$_SESSION['mngplan_id'];
 $manageplansql= mysqli_query($mysqli,"select plan_name,org_id,team_id,audit_start_date,audit_end_date from cca_manageplan m,cca_plan p where m.plan_id=p.id and m.id='".$manageplan_id."'");
@@ -38,10 +39,15 @@ else{
   $edit_id = 0 ;
 }
 
- // if( isset($_SESSION['save_id']) && $_SESSION['save_id'] == 1){
+ if( !isset($_SESSION['save_id'])){
        
- //       $disabled = "disabled";
- // }
+       $save_id = 0;
+ }
+ else{
+   $save_id = $_SESSION['save_id'];
+ }
+
+ //echo  $save_id;
 
 ?>
 <style>
@@ -173,7 +179,7 @@ font-weight: bold;
                         </thead>
                         <tbody>
                           <?php
-                          if($edit_id == 1 || $_SESSION['save_id']==1 ){
+                          if($edit_id == 1 || $save_id==1 ){
                           include("record_maintenance_template_edit.php");
                           }else{
                           include("record_maintenance_template.php");
@@ -191,7 +197,7 @@ font-weight: bold;
                       }else{
                       ?>
                       <input type="hidden"  name="save" value="Save" />
-                      <input type="submit" class="btn btn-success" value="Save" <?php  if($_SESSION['save_id'] == 1){ ?> disabled <?php } ?> />
+                      <input type="submit" class="btn btn-success" value="Save" <?php  if($save_id == 1){ ?> disabled <?php } ?> />
                       <?php
                       }
                       
@@ -206,10 +212,35 @@ font-weight: bold;
                 <p class="record_non" >(ii)  Consequences of non-maintenance of records</p> 
                 <div class="frm2">
                   <form method="POST" id="frm_records_mtnc" action="ajax_record_maintenance.php">
+
+                        <?php
+
+                             $sql = " SELECT * FROM cca_para_3d1 WHERE paragraph_id = '".$para_id."' AND mngplan_id = '".$mngplanid."' AND version = 0 ";
+                             $res = mysqli_query($mysqli,$sql);
+                             $records = mysqli_fetch_assoc($res);
+                             //print_r($records);
+                            
+                             if($records['consequences_records'] != '' ){
+                                ?>
+                                   <textarea  class="form-control records_mtnc" name="records_mtnc" id="records_mtnc" ><?php echo $records['consequences_records']; ?></textarea>
+                                   <input type="submit" class="btn btn-success" id="btn_records_mtnc" name="record_update" value="Update"   style="margin: 5px;" />
+                                    <input type="hidden"  name="update_records" value="update_records" />
+                                    <input type="hidden"  name="consequences_id" value="<?php echo $records['id']; ?>" />
+                                <?php
+                             }
+
+                             else{
+                                ?>
+
+                                 <textarea  class="form-control records_mtnc" name="records_mtnc" id="records_mtnc"></textarea>
+                                 <input type="submit" class="btn btn-success" id="btn_records_mtnc" value="Save"  <?php  if($save_id !== 1){ ?> disabled <?php } ?> style="margin: 5px;" />
+                                 <input type="hidden"  name="save_records" value="save_records" />
+                                <?php
+                             }
+                         ?>
                           
-                        <textarea  class="form-control records_mtnc" name="records_mtnc" id="records_mtnc"></textarea>
-                         <input type="submit" class="btn btn-success" id="btn_records_mtnc" value="Save"  <?php  if($_SESSION['save_id'] !== 1){ ?> disabled <?php } ?> style="margin: 5px;" />
-                          <input type="hidden"  name="save_records" value="Consequences" />
+                       
+                          
                           
                     </form>
                 </div>

@@ -8,7 +8,7 @@
       $para_id   = $_SESSION['paraid'];
    }
      
-      $sql = "SELECT d.id, r.record_name,r.rules,r.form_no,d.status FROM `cca_para_d` d , cca_recordslist r WHERE d.recordList_id =r.id AND d.paragraph_id = '".$para_id."' AND d.mngplan_id = '".$mngplanid."' AND d.version = 0 ";
+      $sql = "SELECT d.id, r.record_name,r.rules,r.form_no,d.status FROM `cca_para_3d` d , cca_recordslist r WHERE d.recordList_id =r.id AND d.paragraph_id = '".$para_id."' AND d.mngplan_id = '".$mngplanid."' AND d.version = 0 ";
       //echo $sql
       $res = mysqli_query($mysqli,$sql);
 
