@@ -102,7 +102,7 @@ height:100%;
                      <?php
                        
                         $sql = "SELECT td.ID,td.dept_id,td.tour_for_the_month,td.plan_id,td.t_category,td.year_of_account,td.act_dt_commencent,td.act_dt_completion,td.dt_commencent,td.dt_completion,td.purpose,td.distance,td.remarks,td.status,tc.catagory_name FROM cca_tour_details td ,cca_tour_catagory tc WHERE td.t_category = tc.id AND ( td.status = 'pending' AND td.dept_id= '".$deptid_fa."' )";
-                        //echo $sql;
+                       // echo $sql;
                         $result = mysqli_query($mysqli,$sql);
 
                         if(mysqli_num_rows($result)> 0)

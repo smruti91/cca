@@ -84,7 +84,7 @@ height:100%;
                               <th style="width: 9%;">Plan Name</th>
                               <th style="width: 9%;">Tour Catagory</th>
                               <th style="width: 9%;">Employee Name</th>
-                              <th style="width: 9%;"> Date of Commencement </th>
+                              <th style="width: 9%;">Date of Commencement </th>
                               <th style="width: 9%;">Date of Completion </th>
                               <th style="width: 9%;">Purpose </th>
                               <th style="width: 9%;">Distance In KM </th>
@@ -96,13 +96,13 @@ height:100%;
                           <tbody>
                             <?php
                                
-                               $result = mysqli_query($mysqli, "SELECT * FROM cca_tour_details WHERE status='draft' ORDER BY id "); 
+                               $result = mysqli_query($mysqli, "SELECT * FROM cca_tour_details  ORDER BY id "); 
                                if(mysqli_num_rows($result)>0)
                                {
                                  $count=0;
-                                 while($res = mysqli_fetch_array($result) )
+                                 while($res = mysqli_fetch_assoc($result) )
                                  {
-                                     //print_r($res);
+                                     //print_r($res);exit;
                                      $count++;
                                      ?>
                                       <tr>
@@ -128,12 +128,38 @@ height:100%;
                                          <td><?php echo $res['remarks']; ?></td>
                                         
                                          <td>
-                                           <a href="#editEmployeeModal_<?php echo $res['ID']; ?>" class="edit" data-toggle="modal" id="<?php echo $res['ID']; ?>" ><i class="material-icons" data-toggle="tooltip" title="Edit" >&#xE254;</i></a>
+                                            <?php
+                                              //echo "SELECT * FROM cca_tour_details WHERE status='pending' AND ID = '".$res['ID']."' ";
+                                              // $sql_pending = mysqli_query($mysqli, "SELECT * FROM cca_tour_details WHERE status='pending' AND ID = '".$res['ID']."' "); 
+                                              // $sql_pending_res = mysqli_fetch_assoc($sql_pending);
+                                              // print_r($sql_pending_res);
 
-                                           <a href="#deleteEmployeeModal_<?php echo $res['ID']; ?>" class="delete"  id="delete_<?php echo $res['ID']; ?>" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                              switch ($res['status']) {
+                                                case 'pending':
+                                                  ?>
+                                                    <a href="#sendModal_<?php echo $res['ID']; ?>" data-toggle="modal" class="btn btn-primary" style="color:white;" disabled>Pending At FA</i></a>
+                                                  <?php
+                                                  break;
+                                                 case 'accept':
+                                                   include "tour_review_template.php";
+                                                  break;
+                                                
+                                                default:
+                                                  ?>
+                                                     <a href="#editEmployeeModal_<?php echo $res['ID']; ?>" class="edit" data-toggle="modal" id="<?php echo $res['ID']; ?>" ><i class="material-icons" data-toggle="tooltip" title="Edit" >&#xE254;</i></a>
 
-                                            <a href="#sendModal_<?php echo $res['ID']; ?>" data-toggle="modal" class="btn btn-success" style="color:white;">Submit to FA</i></a>
+                                                   <a href="#deleteEmployeeModal_<?php echo $res['ID']; ?>" class="delete"  id="delete_<?php echo $res['ID']; ?>" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 
+                                                   <a href="#sendModal_<?php echo $res['ID']; ?>" data-toggle="modal" class="btn btn-success" style="color:white;">Submit to FA</i></a>
+                                                  <?
+                                                  break;
+                                              }
+                                              // 
+
+                                             ?>
+                                            
+                                          
+                                          
 
                                    <!-- Delete Modal HTML -->
                                                   <div id="deleteEmployeeModal_<?php echo $res['ID']; ?>" class="modal fade">
@@ -289,10 +315,10 @@ height:100%;
 							<label>Remarks</label>
               <textarea class="form-control" id="remark" rows="3"></textarea>
             </div>
-             <input type="hidden" name="planId" id="planId" value="" >
+             <input type="hidden" name="planId"  id="planId" value="" >
              <input type="hidden" name="tour_id" id="tour_id">
              <input type="hidden" name="dept_id" id="dept_id" value="<?php echo $res_query['Dept_ID']; ?>" >
-             <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $res_query['ID']; ?>" >
+             <input type="hidden" name="emp_id"  id="emp_id" value="<?php echo $res_query['ID']; ?>" >
 
 					</div>
 					<div class="modal-footer">
@@ -324,25 +350,8 @@ height:100%;
         autoclose: true,
       };
       date_input.datepicker(options);
-      if ( sessionStorage.type=="Success" ) {
-             $('#alert_msg').show();
-
-              $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-              closeAlertBox();
-                //sessionStorage.reloadAfterPageLoad = false;
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-        }
-      if(sessionStorage.type=="Error")
-      {
-         $('#alert_msg').show();
-
-              $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-              closeAlertBox();
-
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-      }
+      showMessage();
+      
   });
   var yearsLength = 30;
 var currentYear = new Date().getFullYear();
@@ -352,11 +361,7 @@ for(var i = 0; i < 30; i++){
   $('#financialYear').append(new Option(year, year));
   currentYear--;
 }
-function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
+
  $(document).on('change','#planName',function(){
   var org_id = $('#planName option:selected').val();
   //alert(org_id);
@@ -495,6 +500,158 @@ function add_tour(){
        }
       );
   }
+}
+
+//upload or edit tour report
+
+
+$(document).on('submit','.reportForm',function(e){
+  
+      e.preventDefault();
+        $.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = ((evt.loaded / evt.total) * 100);
+                        $(".progress").show();
+                        $(".progress-bar").width(percentComplete + '%');
+                        $(".progress-bar").html(percentComplete+'%');
+                    }
+                }, false);
+                return xhr;
+            },
+            type: 'POST',
+            url: 'fetch_tour_data.php',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function(){
+                $(".progress-bar").width('0%');
+                //$('#uploadStatus').html('<img src="images/loading.gif"/>');
+            },
+            error:function(){
+                $('.uploadStatus').html('<p style="color:#EA4335;">File upload failed, please try again.</p>');
+            },
+            success: function(resp){
+              res = resp.split("#");
+              console.log(res);
+                if(res[0] == 'Success'){
+                  console.log("hello");
+                    //$('#uploadForm')[0].reset();view_pdf
+                    $('.uploadStatus').html('<p style="color:#28A74B;">File has uploaded successfully!</p>');
+                    $('.view_report').attr('href',res[1]);
+                    $('.uploadBtn').hide();
+                    setTimeout(()=>{
+                      $(".uploadStatus").hide()
+                    },3000);
+                    
+
+                }else if(resp == 'err'){
+                    $('.uploadStatus').html('<p style="color:#EA4335;">Please select a valid file to upload.</p>');
+                }
+            }
+        });
+});
+
+$(document).on('submit','.cancelForm',function(e){
+   e.preventDefault();
+
+   $.ajax({
+
+    type: 'POST',
+    url: 'fetch_tour_data.php',
+    data: new FormData(this),
+    contentType: false,
+    cache: false,
+    processData:false,
+    success: function(res){
+      console.log(res);
+      if(data == 'Success')
+      {
+        location.reload();
+      }
+      else
+      {
+        console.log("data");
+      }
+    }
+   })
+});
+
+$(document).on('click','.edit_report',function(){
+   var id = $(this).attr("id");
+   var distance = $('#distnc').val();
+   //console.log(id);
+   $.ajax({
+    url: "fetch_tour_data.php",
+    method: "POST",
+    data: {action:"edit_report",user_id:id,distance:distance},
+    dataType:"json",
+    success: function(data){
+      console.log(data.file_path);
+      $('.uploaded_report').show();
+      $('.upload_file').hide();
+      $('.uploadBtn').hide();
+      $('.final_review').val(data.remark);
+      $('.view_report').attr('href',data.file_path);
+      $('.uploaded_report').attr('href',data.file_path);
+      //$('.report_file').val(data.file_path);
+      $('#myModal_'+id).modal('show');
+
+    }
+   })
+   //var final_review = document.getElementsByClassName("final_review");
+   
+});
+$(document).on('click','.remove_report',function(e){
+  e.preventDefault();
+  var id = $(this).attr("id");
+  //alert(id);
+  $.ajax({
+     url:"fetch_tour_data.php",
+     method:"POST",
+     data:{action:"remove_report",user_id:id},
+    
+     success:function(data){
+      //var res = $.parseJSON(data);
+      console.log(data)
+       if(data == "success")
+       {
+          $('.uploaded_file').hide();
+          $('.upload_file').show();
+          $('.uploadBtn').show();
+
+       }
+        else{
+          //console.log(error);
+        }
+
+     }
+   });
+})
+
+
+function submit_report(id)
+{
+
+    $.ajax({
+     url:"fetch_tour_data.php",
+     method:"POST",
+     data:{action:"submit_report",user_id:id},
+    
+     success:function(data){
+     console.log(data);
+      //location.reload();
+      
+     }
+   });
+}
+function save_report(id)
+{
+  location.reload();
+  
 }
 
 </script>

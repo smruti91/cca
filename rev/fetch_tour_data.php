@@ -243,10 +243,10 @@
   $filename = mysqli_fetch_array($filename_query);
   $document_name =  $filename['document_name'];
   
-    $file_path = '/cca_new/Auditor/'.$document_name;
+    $file_path = '/cca/rev/'.$document_name;
   //$file_path =  realpath($document_name);
     $path = $_SERVER['DOCUMENT_ROOT'].$file_path;
-    //echo $path;exit;
+   // echo $path;exit;
   if($path)
   {
     //echo $file_path;
@@ -272,7 +272,7 @@ if(isset($_POST['action']) && $_POST['action']=='submit_report'  )
   $user_id = $_POST['user_id'];
   $distance = $_POST['distance'];
      $audit_sql = "UPDATE cca_tour_details SET audit_report = (SELECT id FROM `cca_tour_document` WHERE document_id = '".$user_id."') , distance = '".$distance."' WHERE ID = '".$user_id."' ";
-     
+   echo $audit_sql;exit;  
    $audit_report = mysqli_query($mysqli,$audit_sql);
   if($audit_report)
                 {
