@@ -22,9 +22,9 @@
                                     <td>  <?php echo $row['record_name'] ?> </td>
                                     <td>  <?php echo $row['rules'] ?>  </td>
                                     <td>  <?php echo $row['form_no'] ?> </td>
-                                    <td> <input type="checkbox" class="check[<?php echo $row['form_no'] ?>]"  name = "checklist[]" id="verified" value="0" <?php if($row['status']==0){ echo " checked=\"checked\"";  } ?> > </td>
-                                    <td> <input type="checkbox" class="check[<?php echo $row['form_no'] ?>]" name = "checklist[]" id="notVerified" value="1"  <?php if($row['status']==1){ echo " checked=\"checked\"";  } ?> > </td>
-                                    <td> <input type="checkbox" class="check[<?php echo $row['form_no'] ?>]" name = "checklist[]" id = "notMaintained" value="2"  <?php if($row['status']==2){ echo " checked=\"checked\"";  } ?> ></td>
+                                    <td> <input type="checkbox" class="check[<?php echo $row['form_no'] ?>]"  name = "checklist[]" id="verified" value="1" <?php if($row['status']==1){ echo " checked=\"checked\"";  } ?> > </td>
+                                    <td> <input type="checkbox" class="check[<?php echo $row['form_no'] ?>]" name = "checklist[]" id="notVerified" value="2"  <?php if($row['status']==2){ echo " checked=\"checked\"";  } ?> > </td>
+                                    <td> <input type="checkbox" class="check[<?php echo $row['form_no'] ?>]" name = "checklist[]" id = "notMaintained" value="0"  <?php if($row['status']==0){ echo " checked=\"checked\"";  } ?> ></td>
                                     <input type="hidden" name="record_list_id[]" value="<?php echo $row['id'] ?>" >
                                    
                                      

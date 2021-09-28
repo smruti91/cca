@@ -192,12 +192,12 @@ font-weight: bold;
                       if($edit_id == 1){
                       ?>
                       <input type="hidden"  name="update" value="Update" />
-                      <input type="submit" class="btn btn-primary" value="Update" />
+                      <input type="submit" class="btn btn-primary" value="Update" style="margin-right: 125px;" />
                       <?php
                       }else{
                       ?>
                       <input type="hidden"  name="save" value="Save" />
-                      <input type="submit" class="btn btn-success" value="Save" <?php  if($save_id == 1){ ?> disabled <?php } ?> />
+                      <input type="submit" class="btn btn-success" value="Save" style="margin-right: 125px;" <?php  if($save_id == 1){ ?> disabled <?php } ?> />
                       <?php
                       }
                       
@@ -261,28 +261,11 @@ font-weight: bold;
 <link rel="stylesheet" href="../css/bootstrap-datepicker3.css"/>
 <script type="text/javascript" src="../js/bootstrap-datepicker.min.js"></script>
 <script src="../tinymce/tinymce.min.js"></script>
+<script type="text/javascript" ></script>
 <script>
 $(document).ready(function() {
 
-if ( sessionStorage.type=="success" ) {
-$('#alert_msg').show();
-$('#btn_records_mtnc').show();
-console.log(123);
-$("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-closeAlertBox();
-//sessionStorage.reloadAfterPageLoad = false;
-
-sessionStorage.removeItem("message");
-sessionStorage.removeItem("type");
-}
-if(sessionStorage.type=="error")
-{
-$('#alert_msg').show();
-$("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-closeAlertBox();
-sessionStorage.removeItem("message");
-sessionStorage.removeItem("type");
-}
+  showMessage();
 //submit form
 
 $('#frm_dtl_advnc').submit(function(e){
@@ -327,11 +310,7 @@ return false;
 
 }
 
-function closeAlertBox(){
-window.setTimeout(function () {
-$("#alert_msg").fadeOut(300)
-}, 3000);
-}
+
 // the selector will match all input controls of type :checkbox
 // and attach a click event handler
 $("input:checkbox").on('click', function() {

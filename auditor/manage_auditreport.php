@@ -204,33 +204,11 @@ height:100%;
  $(document).ready(function() {
    $('#tableid').DataTable();
    
-   if ( sessionStorage.type=="success" ) {
-             $('#alert_msg').show();
-              
-              $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-              closeAlertBox();
-                //sessionStorage.reloadAfterPageLoad = false;
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-        }
-      if(sessionStorage.type=="Error")
-      {
-         $('#alert_msg').show();
-
-              $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-              closeAlertBox();
-
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-      }
+   showMessage();
 
 } );
 
-function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
+
 </script>
 
 
