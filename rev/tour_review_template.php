@@ -38,7 +38,7 @@
                                           }
                                           else{
                                             ?>
-                                              <a href="<?php echo $file_path?>" target="_blank"><i class="material-icons" data-toggle="tooltip" title="picture_as_pdf" style="font-size: 3rem; color:#f25149;" >picture_as_pdf</i></a>
+                                              <a href="<?php echo $file_path?>" target="_blank"><i class="material-icons" data-toggle="tooltip" title="picture_as_pdf" style="font-size: 3rem; color:#f25149;" >picture_as_pdf</i>Report</a>
                                             <?php
                                           }
                                         }
@@ -147,7 +147,8 @@
                                  </div>
                                   <div class="actionBtn">
                                     <a class="btn btn-warning view_report" role="button" target="_blank" style="color: #fff" >Preview Pdf</a>
-                                    <button class="btn btn-primary" id="<?php echo $res['ID']; ?>" onclick="submit_report(this.id)" >Submit</button>
+                                    <button class="btn btn-primary btn_submit" id="<?php echo $res['ID']; ?>" onclick="submit_report(this.id)" >Submit</button>
+                                    <button class="btn btn-primary btn_update" id="<?php echo $res['ID']; ?>" onclick="update_report(this.id)" >Update</button>
                                    
                                   </div>
                                  <input type="hidden" name="document_id"  value="<?php echo $res['ID']; ?>">

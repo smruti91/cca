@@ -258,8 +258,7 @@ window.setTimeout(function () {
        //alert();
     if(id == 0){
          remove_tr(ele);
-     
-    }
+        }
     else{
         
       $('#deleteAdvanceModal_'+id).modal()

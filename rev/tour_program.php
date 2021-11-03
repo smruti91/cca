@@ -96,7 +96,7 @@ height:100%;
                           <tbody>
                             <?php
                                
-                               $result = mysqli_query($mysqli, "SELECT * FROM cca_tour_details  ORDER BY id "); 
+                               $result = mysqli_query($mysqli, "SELECT * FROM cca_tour_details ORDER BY status DESC "); 
                                if(mysqli_num_rows($result)>0)
                                {
                                  $count=0;
@@ -350,7 +350,7 @@ height:100%;
         autoclose: true,
       };
       date_input.datepicker(options);
-      showMessage();
+      //showMessage();
       
   });
   var yearsLength = 30;
@@ -590,10 +590,12 @@ $(document).on('click','.edit_report',function(){
     data: {action:"edit_report",user_id:id,distance:distance},
     dataType:"json",
     success: function(data){
-      console.log(data.file_path);
+      console.log(data);
+      console.log(123);
       $('.uploaded_report').show();
       $('.upload_file').hide();
       $('.uploadBtn').hide();
+      $('.btn_submit').hide();
       $('.final_review').val(data.remark);
       $('.view_report').attr('href',data.file_path);
       $('.uploaded_report').attr('href',data.file_path);
@@ -616,7 +618,7 @@ $(document).on('click','.remove_report',function(e){
     
      success:function(data){
       //var res = $.parseJSON(data);
-      console.log(data)
+      //console.log(data)
        if(data == "success")
        {
           $('.uploaded_file').hide();
@@ -632,6 +634,29 @@ $(document).on('click','.remove_report',function(e){
    });
 })
 
+function update_report(id){
+   var final_review = $('.final_review').val();
+   var final_distnc = $('#distnc').val();
+
+   $.ajax({
+      method: "POST",
+      url: "fetch_tour_data.php",
+      data:{action:"update_report",final_review:final_review,final_distnc:final_distnc,user_id:id},
+
+      success:function(data){
+        console.log(data)
+        if(data == "success")
+       {
+         location.reload();
+       }
+        else{
+          console.log('error');
+        }
+
+      }
+   })
+}
+
 
 function submit_report(id)
 {
@@ -642,8 +667,8 @@ function submit_report(id)
      data:{action:"submit_report",user_id:id},
     
      success:function(data){
-     console.log(data);
-      //location.reload();
+     //console.log(data);
+      location.reload();
       
      }
    });

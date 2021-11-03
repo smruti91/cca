@@ -18,13 +18,13 @@
        // $msg = array();
         for($i = 0;$i<$num;$i++  )
         {
-           $sql_irreg_0 = " INSERT INTO  cca_para_2b (mngplan_id , paragraph_id , irreg_notice, status , version ,add_by,add_ip ) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress')  ";
+           $sql_irreg_0 = " INSERT INTO  cca_para_2b (mngplan_id , para_id , irreg_notice, status , version ,add_by,add_ip ) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress')  ";
           // echo $sql_complaince;
            $insert = mysqli_query($mysqli , $sql_irreg_0);
            $last_id = $mysqli->insert_id;
            //echo $last_id;
             if($last_id){
-                $sql_irreg_1 = " INSERT INTO  cca_para_2b (mngplan_id , paragraph_id , irreg_notice , status , version,irreg_id ,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 1 ,'$last_id' ,'$user_id' ,'$ipaddress' )  ";
+                $sql_irreg_1 = " INSERT INTO  cca_para_2b (mngplan_id , para_id , irreg_notice , status , version,irreg_id ,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 1 ,'$last_id' ,'$user_id' ,'$ipaddress' )  ";
                  $insert1 = mysqli_query($mysqli , $sql_irreg_1);
 
                   if($insert1){
@@ -61,13 +61,13 @@
 
                  //add new row 
                  if($irreg_edit_id[$i] == -1){
-                      $sql_irreg_0 = " INSERT INTO  cca_para_2b (mngplan_id , paragraph_id , irreg_notice, status , version ,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress')  ";
+                      $sql_irreg_0 = " INSERT INTO  cca_para_2b (mngplan_id , para_id , irreg_notice, status , version ,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress')  ";
                      // echo $sql_complaince;
                       $insert = mysqli_query($mysqli , $sql_irreg_0);
                       $last_id = $mysqli->insert_id;
                       //echo $last_id;
                        if($last_id){
-                           $sql_irreg_1 = " INSERT INTO  cca_para_2b (mngplan_id , paragraph_id , irreg_notice , status , version,irreg_id,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 1 ,'$last_id','$user_id' ,'$ipaddress' )  ";
+                           $sql_irreg_1 = " INSERT INTO  cca_para_2b (mngplan_id , para_id , irreg_notice , status , version,irreg_id,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$irreg_notice[$i]' , 'draft' , 1 ,'$last_id','$user_id' ,'$ipaddress' )  ";
                             $insert1 = mysqli_query($mysqli , $sql_irreg_1);
 
                              if($insert1){

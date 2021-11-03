@@ -2,7 +2,7 @@
   include "header.php"; 
   include("../common_functions.php");
   include_once("../config.php");
-  session_start();
+  //session_start();
 
    
    $userid = (($_SESSION['userid'] && $_SESSION['userid']>0)?$_SESSION['userid']:-1);
@@ -73,8 +73,8 @@ height:100%;
                </div>
                <hr>
                 <div class="row" style="padding-bottom:50px;">
-                  <button type="button" class="btn btn-danger" id="print_report" style="margin-left: 25px; display: none;" onclick="print_report()" >Print</button>
-                  <form id="print_tbl">
+                 <!--  <button type="button" class="btn btn-danger" id="print_report" style="margin-left: 25px; display: none;" onclick="print_report()" >Print</button> -->
+                  <form id="print_tbl" action="generate-pdf.php" method="POST">
                       <table class="table table-striped table-bordered" id="tableid">
                       <thead style="background-color: #185a9d;color: white;">
                         <tr>
@@ -95,6 +95,8 @@ height:100%;
                       
                       </tbody>
                     </table>
+                   <button class="btn btn-danger" type="submit">pdf-report</button>
+                   <input type="hidden" id="tbldata" name="tbldata" value="">
                   </form>
                     
             </div>
@@ -116,7 +118,7 @@ height:100%;
     	});
       
       function tour_report(){
-       var reviewer_id =  $('#reviewer').val();
+       var reviewer_id   =  $('#reviewer').val();
        var tour_month    =  $('#month').val();
         
       $.ajax({
@@ -136,12 +138,13 @@ height:100%;
       function tableData(data)
       {
        var rows = '';
+       var tbl_data ;
        //console.log(data);
        $.each(data,function(key,value){
         
          rows = rows + '<tr>';
-         rows = rows + '<td class="row-data">'+value.count+'</td>';
-         rows = rows + '<td class="row-data">'+value.month+'-'+value.year+'</td>';
+         rows = rows + '<td class="row-data" name="count">'+value.count+'</td>';
+         rows = rows + '<td class="row-data" name="month">'+value.month+'-'+value.year+'</td>';
          rows = rows + '<td class="row-data">'+value.year_of_account+'</td>';
          rows = rows + '<td class="row-data">'+value.catagory_name+'</td>';
          rows = rows + '<td class="row-data">'+value.plan_name+'</td>';
@@ -155,33 +158,42 @@ height:100%;
         
        });
 
+        tbl_data = JSON.stringify(data);
+
        $('tbody').html(rows);
+       $('#tbldata').val(tbl_data);
        $('#print_report').show();
 
 
       }
 
-      function print_report(){
-         //var table = $("#print_tbl").serializeArray();
+
+
+      // function print_report(){
+      //    //var table = $("#print_tbl").serializeArray();
      
-         var TableData;
-           TableData = storeTblValues();
-           TableData = JSON.stringify(TableData);
-           //console.log(TableData);
+      //    var TableData;
+      //      TableData = storeTblValues();
+      //      TableData = JSON.stringify(TableData);
+      //      //console.log(TableData);
 
-           $.ajax({
-             type: 'POST',
-             url : 'generate-pdf.php',
-             data:  "pTableData=" + TableData,
-             //dataType:"json",
-             success:function(data)
-             {
-               console.log(data);
-               //tableData(data.data);
-             }
-           })
-      }
+      //      $.ajax({
+      //        type: 'POST',
+      //        url : 'generate-pdf.php',
+      //        data:  "pTableData=" + TableData,
+      //       //dataType: "html",
+      //        success:function(data)
+      //        {
+      //          console.log(data);
+      //          //tableData(data.data);
+      //          //window.location.assign('pdf');
+      //          //window.open(data);
+      //        }
+      //      })
+      // }
 
+
+      
       function storeTblValues()
       {
         var TableData = new Array();

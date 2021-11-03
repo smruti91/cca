@@ -4,7 +4,7 @@
   //  include_once("../config.php");
   //  include("../common_functions.php");
   // include "header.php";
-  $sql_para  = " SELECT * FROM cca_para_2a WHERE paragraph_id = '".$_POST['para_id']."' AND mngplan_id = '".$_POST['mangPlan_id']."' AND version = 0 "; 
+  $sql_para  = " SELECT * FROM cca_para_2a WHERE para_id = '".$_POST['para_id']."' AND mngplan_id = '".$_POST['mangPlan_id']."' AND version = 0 "; 
    // echo $sql_para;             
    $sql_para_res   = mysqli_query($mysqli,$sql_para);
    
@@ -87,7 +87,7 @@
                         </div>
                         <input type="hidden" name="para_edit_id[]" value="<?php echo  $para_row['id'] ;?>" >
                       </div>
-                           <input type="hidden" name="Update_complaince" value="Update" >
+                           <input type="hidden" name="Update_complaince"  value="Update" >
                     </div>
                    
                   </div>

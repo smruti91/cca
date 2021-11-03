@@ -271,8 +271,8 @@ if(isset($_POST['action']) && $_POST['action']=='submit_report'  )
 {
   $user_id = $_POST['user_id'];
   $distance = $_POST['distance'];
-     $audit_sql = "UPDATE cca_tour_details SET audit_report = (SELECT id FROM `cca_tour_document` WHERE document_id = '".$user_id."') , distance = '".$distance."' WHERE ID = '".$user_id."' ";
-   echo $audit_sql;exit;  
+  $audit_sql = "UPDATE cca_tour_details SET audit_report = (SELECT id FROM `cca_tour_document` WHERE document_id = '".$user_id."') WHERE ID = '".$user_id."' ";
+   //echo $audit_sql;exit;  
    $audit_report = mysqli_query($mysqli,$audit_sql);
   if($audit_report)
                 {
@@ -289,17 +289,40 @@ if(isset($_POST['action']) && $_POST['action']=='submit_report'  )
 
 if(isset($_POST['action']) && $_POST['action']=='edit_report'  )
 {
+  //echo 12345;exit;
   $user_id = $_POST['user_id'];
+  $distance = $_POST['distance'];
   $report_sql = "SELECT final_remark , document_name FROM `cca_tour_document` WHERE document_id = '".$user_id."' ";
   $res = mysqli_query($mysqli,$report_sql);
   $row = mysqli_fetch_array($res);
 
   $data['remark'] = $row['final_remark'];
   $data['file_path'] = $row['document_name'];
+  //print_r($data);
    echo json_encode($data);
    exit;
 
 }
+
+if(isset($_POST['action']) && $_POST['action']=='update_report'  )
+{
+  $user_id = $_POST['user_id'];
+  $distance = $_POST['final_distnc'];
+  $final_review = $_POST['final_review'];
+  //echo $user_id;
+  $dstns_sql = "UPDATE cca_tour_details SET distance = '". $distance."' WHERE ID = '".$user_id."' " ;
+  $dstns_sql_query = mysqli_query($mysqli,$dstns_sql);
+
+
+  $sql_finalReview = "UPDATE cca_tour_document SET final_remark = '".$final_review."' WHERE document_id = '".$user_id."' ";
+  $sql_finalReview_re = mysqli_query($mysqli,$sql_finalReview);
+
+  echo 'success';exit;
+
+
+}
+
+
 
 if(isset($_POST['action']) && $_POST['action']=='cancel_report')
 {

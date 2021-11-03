@@ -1,6 +1,6 @@
                             
            <?php
-              $sql_para  = " SELECT * FROM cca_para_3c1 WHERE paragraph_id = '".$_POST['para_id']."' AND mngplan_id = '".$_POST['mangPlan_id']."' AND version = 0 "; 
+              $sql_para  = " SELECT * FROM cca_para_3c1 WHERE para_id = '".$_POST['para_id']."' AND mngplan_id = '".$_POST['mangPlan_id']."' AND version = 0 "; 
                $sql_para_res   = mysqli_query($mysqli,$sql_para);
                 
                 while ($para_row  = mysqli_fetch_assoc($sql_para_res)) {

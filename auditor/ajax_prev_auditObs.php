@@ -21,13 +21,13 @@
        // $msg = array();
         for($i = 0;$i<$num;$i++  )
         {
-           $sql_complaince_0 = " INSERT INTO  cca_para_2a (mngplan_id , paragraph_id , audit_type ,audit_no, year , no_objctn_para ,audit_obs,compliance , status , version,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress' )  ";
+           $sql_complaince_0 = " INSERT INTO  cca_para_2a (mngplan_id , para_id , audit_type ,audit_no, year , no_objctn_para ,audit_obs,compliance , status , version,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress' )  ";
           // echo $sql_complaince;
            $insert = mysqli_query($mysqli , $sql_complaince_0);
            $last_id = $mysqli->insert_id;
            //echo $last_id;
             if($last_id){
-                $sql_complaince_1 = " INSERT INTO  cca_para_2a (mngplan_id , paragraph_id , audit_type ,audit_no, year , no_objctn_para ,audit_obs,compliance , status , complaince_id, version , add_by , add_ip) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' ,'$last_id', 1 , '$user_id' ,'$ipaddress' )  ";
+                $sql_complaince_1 = " INSERT INTO  cca_para_2a (mngplan_id , para_id , audit_type ,audit_no, year , no_objctn_para ,audit_obs,compliance , status , complaince_id, version , add_by , add_ip) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' ,'$last_id', 1 , '$user_id' ,'$ipaddress' )  ";
                  $insert1 = mysqli_query($mysqli , $sql_complaince_1);
 
                   if($insert1){
@@ -68,13 +68,13 @@
                  //add new row 
                  if($para_edit_id[$i] == -1){
 
-                      $sql_complaince_0 = " INSERT INTO  cca_para_2a (mngplan_id , paragraph_id , audit_type , audit_no , year , no_objctn_para ,audit_obs,compliance , status , version , add_by , add_ip ) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress')  ";
+                      $sql_complaince_0 = " INSERT INTO  cca_para_2a (mngplan_id , para_id , audit_type , audit_no , year , no_objctn_para ,audit_obs,compliance , status , version , add_by , add_ip ) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress')  ";
                       //echo $sql_complaince_0; exit;
                       $insert = mysqli_query($mysqli , $sql_complaince_0);
                       $last_id = $mysqli->insert_id;
                       //echo $last_id;
                       if($last_id){
-                          $sql_complaince_1 = " INSERT INTO  cca_para_2a (mngplan_id , paragraph_id , audit_type , audit_no , year , no_objctn_para ,audit_obs,compliance , status , complaince_id, version , add_by , add_ip) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' ,'$last_id', 1 ,'$user_id' ,'$ipaddress')  ";
+                          $sql_complaince_1 = " INSERT INTO  cca_para_2a (mngplan_id , para_id , audit_type , audit_no , year , no_objctn_para ,audit_obs,compliance , status , complaince_id, version , add_by , add_ip) values ( '$manageplan_id' , '$para_id' , '$audit_type[$i]' , '$audit_no[$i]', '$year[$i]' , '$no_obs_para[$i]' ,'$audit_obs[$i]','$complaince[$i]' , 'draft' ,'$last_id', 1 ,'$user_id' ,'$ipaddress')  ";
                           //echo $sql_complaince_1; exit;
                            $insert1 = mysqli_query($mysqli , $sql_complaince_1);
 

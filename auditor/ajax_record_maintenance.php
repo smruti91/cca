@@ -17,7 +17,7 @@
 
       	 for($i=0; $i<$num ; $i++  )
       	 {
-      	 	$sql_maintance_0 = " INSERT INTO `cca_para_3d` ( `mngplan_id`, `paragraph_id`, `recordList_id`, `status`, `version`, `add_by`, `add_ip`) VALUES ('$manageplan_id', '$para_id', '$record_list_id[$i]', '$checklist[$i]', 0, '$user_id', '$ipaddress') ";
+      	 	$sql_maintance_0 = " INSERT INTO `cca_para_3d` ( `mngplan_id`, `para_id`, `recordList_id`, `status`, `version`, `add_by`, `add_ip`) VALUES ('$manageplan_id', '$para_id', '$record_list_id[$i]', '$checklist[$i]', 0, '$user_id', '$ipaddress') ";
 
       	 	//echo $sql_maintance;
 

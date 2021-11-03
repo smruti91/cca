@@ -98,22 +98,21 @@ height:100%;
 
                     <?php
                       $result= mysqli_query($mysqli,'SELECT * from `cca_paragraph` where para_category=0 ');
-                     while($res_row=mysqli_fetch_assoc($result)){
-                      //print_r($res_row);
+                     while($res_row=mysqli_fetch_array($result)){
                     ?>
                     <tr>
                       <td style="text-align:left;background-color: #e6e6e5;"><b><?php echo $res_row['para_head']; ?></b></td>
                       <td style="background-color: #e6e6e5;">&nbsp;</td>
                       <?php
-                        if($res_row['id']!='2' && $res_row['id']!='4' && $res_row['id']!='3'){
+                        if($res_row['id']!='2' && $res_row['id']!='4'){
                         	$paraid=$res_row['id'];
                         	//echo "SHOW TABLES LIKE 'cca_para".$res_row['id']."'";
                         	if ($result_exists = $mysqli->query("SHOW TABLES LIKE 'cca_para".$res_row['id']."'")) {
 									    if($result_exists->num_rows == 1) {
 									       $sql_para1  = mysqli_query($mysqli,"SELECT * FROM `"."cca_para".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ");
-									          //echo "SELECT * FROM `"."cca_para".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ";
+									        // echo "SELECT * FROM `"."cca_para".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' ";
                         	 				$res_rows=mysqli_fetch_array($sql_para1); 
-									                //print_r($res_rows);
+									   
 									// else {
 									//     echo "Table does not exist";
 									// }
@@ -142,13 +141,8 @@ height:100%;
                     </tr>
                     <?php
                        $result_subhead= mysqli_query($mysqli,'SELECT * from `cca_paragraph` where para_category=1 and para_id="'.$res_row['para_id'].'"'); 
-                       $x = 'a';
-                       // echo 'SELECT * from `cca_paragraph` where para_category=1 and para_id="'.$res_row['para_id'].'"';
-                       while($res_rowsubhead=mysqli_fetch_assoc($result_subhead)){ 
+                       while($res_rowsubhead=mysqli_fetch_array($result_subhead)){ ?>
 
-                       // print_r($res_rowsubhead);
-						     $x;  
-                       	?>
                           <tr>
                             <td style="text-align:left;"><?php echo $res_rowsubhead['para_head']; ?></td>
                             <td> &nbsp;</td>
@@ -156,49 +150,39 @@ height:100%;
 							                 if($res_rowsubhead['id'] == 9){
                                    $table = 'cca_para_2a';
                                 }
-                               else  if($res_rowsubhead['id'] == 10){
+                                if($res_rowsubhead['id'] == 10){
                                    $table = 'cca_para_2b';
                                 }
-                                else  if($res_rowsubhead['id'] == 13){
+                                if($res_rowsubhead['id'] == 13){
                                    $table = 'cca_para_3c';
                                 }
-                                 else  if($res_rowsubhead['id'] == 14){
+                                if($res_rowsubhead['id'] == 14){
                                    $table = 'cca_para_3c1';
                                 }
-                                 else  if($res_rowsubhead['id'] == 15){
+                                if($res_rowsubhead['id'] == 15){
                                    $table = 'cca_para_3d';
                                 }
-                                else{
-                                	 $table = 'cca_para_'.$res_row['para_id'].$x;
-                                }
                                 
-                        	    $sql_para  = "SELECT * FROM ".$table." WHERE para_id = '".$res_rowsubhead['id']."'  AND mngplan_id = '".$manageplan_id."' " ; 
-                              
-                     
-	                          $sql_para_res   = mysqli_query($mysqli,$sql_para) ;
-	                            if($sql_para_res !== FALSE)
-	                       		{
-	                          $para_row       = mysqli_fetch_assoc($sql_para_res);
-                            //print_r($para_row);
+                         $sql_para  = "SELECT * FROM ".$table." WHERE paragraph_id = '".$res_rowsubhead['id']."'  AND mngplan_id = '".$manageplan_id."' " ; 
+                         
+                          $sql_para_res   = mysqli_query($mysqli,$sql_para) ;
+                          $para_row       = mysqli_fetch_array($sql_para_res);
+                        
                               if($para_row != ''){
                                 ?>
-                                 <td><a href="javascript: ccadatapost('<?php echo $res_rowsubhead['page_url'];?>',{para_id:'<?php echo $para_row['para_id'];?>' , mangPlan_id: '<?php echo $para_row['mngplan_id']  ; ?>' , edit_id: 1 });" class="btn btn-info">Edit</a></td>
+                                 <td><a href="javascript: ccadatapost('<?php echo $res_rowsubhead['page_url'];?>',{para_id:'<?php echo $para_row['paragraph_id'];?>' , mangPlan_id: '<?php echo $para_row['mngplan_id']  ; ?>' , edit_id: 1 });" class="btn btn-info">Edit</a></td>
                                 <?php
                               }else{
                                 ?>
                                  <td><a href="javascript: ccadatapost('<?php echo $res_rowsubhead['page_url'];?>',{para_id:'<?php echo $res_rowsubhead['id'];?>' , edit_id: 0});" class="btn btn-warning">Add</a></td>
                                 <?php
                               }
-                          }else{
-                                ?>
-                                 <td><a href="javascript: ccadatapost('<?php echo $res_rowsubhead['page_url'];?>',{para_id:'<?php echo $res_rowsubhead['id'];?>' , edit_id: 0});" class="btn btn-warning">Add</a></td>
-                                <?php
-                              }
+
                              ?>
+                           
                           </tr>
-                      <?php 
-                      $x++;
-		                  }
+
+                      <?php }
                       }
                     ?>
                   </tbody>
@@ -220,33 +204,11 @@ height:100%;
  $(document).ready(function() {
    $('#tableid').DataTable();
    
-   if ( sessionStorage.type=="success" ) {
-             $('#alert_msg').show();
-              
-              $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-              closeAlertBox();
-                //sessionStorage.reloadAfterPageLoad = false;
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-        }
-      if(sessionStorage.type=="Error")
-      {
-         $('#alert_msg').show();
-
-              $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-              closeAlertBox();
-
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-      }
+   showMessage();
 
 } );
 
-function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
+
 </script>
 
 

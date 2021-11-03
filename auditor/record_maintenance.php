@@ -215,7 +215,7 @@ font-weight: bold;
 
                         <?php
 
-                             $sql = " SELECT * FROM cca_para_3d1 WHERE paragraph_id = '".$para_id."' AND mngplan_id = '".$mngplanid."' AND version = 0 ";
+                             $sql = " SELECT * FROM cca_para_3d1 WHERE para_id = '".$para_id."' AND mngplan_id = '".$manageplan_id."' AND version = 0 ";
                              $res = mysqli_query($mysqli,$sql);
                              $records = mysqli_fetch_assoc($res);
                              //print_r($records);

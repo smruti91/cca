@@ -1,54 +1,44 @@
 <?php
 include_once('../tcpdf/tcpdf.php');
-//  print_r($_POST);
-// exit;
-// Unescape the string values in the JSON array
-//$tableData = stripcslashes($_POST['pTableData']);
+   // print_r($_POST);
+  //  echo $_POST['tour_for_the_month'];
+//exit;
+//Unescape the string values in the JSON array
+$tableData = stripcslashes($_POST['tbldata']);
 
-// Decode the JSON array
-//$tableData = json_decode($tableData,TRUE);
+//Decode the JSON array
+$tableData = json_decode($tableData,TRUE);
 
-// now $tableData can be accessed like a PHP array
+//now $tableData can be accessed like a PHP array
 //echo $tableData[1]['month'];
 //exit;
 //print_r($tableData);
 $tbl ='';
 
-$tbl  .='
+
+foreach ($tableData as $row) {
+
+     //echo($row->month);
+
+     $tbl  .='
      <tr>
-       <td >'.'1'.'</td>
-       <td >'.$_POST['tour_for_the_month'].'</td>
-       <td >'.$_POST['tour_for_the_month'].'</td>
-       <td >'.$_POST['catagory_name'].'</td>
-       <td >'.$_POST['plan_name'].'</td>
-       <td >'.$_POST['dt_commencent'].'</td>
-       <td >'.$_POST['dt_completion'].'</td>
-       <td >'.$_POST['purpose'].'</td>
-       <td >'.$_POST['distance'].'</td>
-       <td >'.$_POST['remarks'].'</td>
+       <td >'.$row['count'].'</td>
+       <td >'.$row['month'].'</td>
+       <td >'.$row['year_of_account'].'</td>
+       <td >'.$row['catagory_name'].'</td>
+       <td >'.$row['plan_name'].'</td>
+       <td >'.$row['dt_commencent'].'</td>
+       <td >'.$row['dt_completion'].'</td>
+       <td >'.$row['purpose'].'</td>
+       <td >'.$row['distance'].'</td>
+       <td >'.$row['remarks'].'</td>
        
      </tr> ';
 
-// foreach ($_POST as $row) {
-//      //print_r($row);
+    
+}
 
-//      $tbl  .='
-//      <tr>
-//        <td >'.$row['Sl No'].'</td>
-//        <td >'.$row['month'].'</td>
-//        <td >'.$row['year_of_account'].'</td>
-//        <td >'.$row['catagory_name'].'</td>
-//        <td >'.$row['plan_name'].'</td>
-//        <td >'.$row['dt_commencent'].'</td>
-//        <td >'.$row['dt_completion'].'</td>
-//        <td >'.$row['purpose'].'</td>
-//        <td >'.$row['distance'].'</td>
-//        <td >'.$row['remarks'].'</td>
-       
-//      </tr> ';
-
-//      //echo $tbl;
-// }
+ //echo $tbl;exit;
 
 // create new PDF document
 
@@ -113,7 +103,11 @@ $content .= '
 ';
 $content .= $tbl;
 $content .= '</table>';
+//echo $content;exit;
 $obj_pdf->writeHTML($content,true, false, false, false, '');
+
+//$obj_pdf->Output(__DIR__ .'/pdf/tour_report.pdf', 'F');  //save pdf
+$obj_pdf->Output('tour_report.pdf', 'D');
 $obj_pdf->Output('tour_report.pdf', 'I');
 
 ?>

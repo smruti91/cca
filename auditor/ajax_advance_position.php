@@ -20,7 +20,7 @@
 
          for ($i=0; $i <$num ; $i++) { 
             
-             $sql_advance_0 = " INSERT INTO  cca_para_3c1 (mngplan_id , paragraph_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress' )  ";
+             $sql_advance_0 = " INSERT INTO  cca_para_3c1 (mngplan_id , para_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress' )  ";
 
             
              $insert = mysqli_query($mysqli , $sql_advance_0);
@@ -29,7 +29,7 @@
 
 
               if($last_id){
-                  $sql_advance_1 = " INSERT INTO  cca_para_3c1 (mngplan_id , paragraph_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by, tbl_id,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 1 ,'$user_id' , '$last_id','$ipaddress' )  ";
+                  $sql_advance_1 = " INSERT INTO  cca_para_3c1 (mngplan_id , para_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by, tbl_id,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 1 ,'$user_id' , '$last_id','$ipaddress' )  ";
                   // echo $sql_complaince_1; exit;
                  $insert1 = mysqli_query($mysqli , $sql_advance_1);
 
@@ -68,7 +68,7 @@
                
                if($para_edit_id[$i] == ''){
                  
-                  $sql_advance_0 = " INSERT INTO  cca_para_3c1 (mngplan_id , paragraph_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress' )  ";
+                  $sql_advance_0 = " INSERT INTO  cca_para_3c1 (mngplan_id , para_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 0 ,'$user_id' ,'$ipaddress' )  ";
 
                   //echo $sql_complaince_0 ;
                   $insert = mysqli_query($mysqli , $sql_advance_0);
@@ -77,7 +77,7 @@
 
 
                    if($last_id){
-                       $sql_advance_1 = " INSERT INTO  cca_para_3c1 (mngplan_id , paragraph_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by, tbl_id,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 1 ,'$user_id' , '$last_id','$ipaddress' )  ";
+                       $sql_advance_1 = " INSERT INTO  cca_para_3c1 (mngplan_id , para_id , offical_name , gpf_Ehrms_id ,scheme_cash_book, amnt_outstd , amnt_paid_atAudit ,amnt_adjusted,balance_asOn ,amnt_outstd_audit,amnt_outstd_cashBook, status , version,add_by, tbl_id,add_ip) values ( '$manageplan_id' , '$para_id' , '$offical_name[$i]' , '$gpf_Ehrms_id[$i]' , '$scheme_cashBook[$i]', '$amut_outStanding[$i]' , '$amut_paid_audit_period[$i]' ,'$amut_adjust[$i]','$balance_asOn[$i]' ,'$amut_outStanding_audit[$i]' ,'$amut_outStanding_cashBook[$i]' , 'draft' , 1 ,'$user_id' , '$last_id','$ipaddress' )  ";
                        // echo $sql_complaince_1; exit;
                       $insert1 = mysqli_query($mysqli , $sql_advance_1);
 

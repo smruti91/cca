@@ -24,7 +24,7 @@
                         <li><a href="reject_tour_program"><i class="fa fa-angle-double-right"></i> Reject Tour Program</a></li>
                         <li><a href="tour_program_review"><i class="fa fa-angle-double-right"></i>Accept Tour Program</a></li>
                         <li><a href="tour_history"><i class="fa fa-angle-double-right"></i>Tour History</a></li>
-                       <!--  <li><a href="tour_report"><i class="fa fa-angle-double-right"></i>Tour Report</a></li> -->
+                        <li><a href="tour_report"><i class="fa fa-angle-double-right"></i>Tour Report</a></li>
                     </ul>
                 </li>
                 <li>
