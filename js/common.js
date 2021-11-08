@@ -25,11 +25,9 @@ function showMessage(){
 	if ( sessionStorage.type=="success" ) {
         $('#alert_msg').show();
         $('#btn_records_mtnc').show();
-        console.log(123);
         $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
         closeAlertBox();
-        //sessionStorage.reloadAfterPageLoad = false;
-
+       
         sessionStorage.removeItem("message");
         sessionStorage.removeItem("type");
     }

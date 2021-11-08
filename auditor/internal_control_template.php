@@ -1,15 +1,57 @@
-                  
-                  <div class="after-add-more subdiv" id="subdiv">
+                 <?php
+
+                      
+                      $sql_para  = " SELECT * FROM cca_para_4a WHERE para_id = '".$_SESSION['paraid']."' AND mngplan_id = '".$manageplan_id."' AND version = 0 ";
+                      //echo $sql_para;
+                      $sql_para_res   = mysqli_query($mysqli,$sql_para);
+                      //print_r($sql_para_res);
+                       $row_cnt = $sql_para_res->num_rows;
+                      
+                       $items = array();
+                       while ($item_row  = mysqli_fetch_assoc($sql_para_res)) {
+                                  // print_r($item_row); 
+                                   $items[] = $item_row['assmnt_aspt'];
+                                    
+                                   
+                                 }   ;
+                      // remove selected item from dropdown
+                                       $item_lists = [
+                                                       0 => "Select Assessment Aspect",
+                                                       1 => "Cash Managemet",
+                                                       2 => "Bank Reconciliation",
+                                                       3 => "Funds/Grants Management",
+                                                       4 => "Asset Managment",
+                                                       5 => "Financial Record Management",
+                                                       6 => "Budget Managment",
+                                                       7 => "Separation of duties",
+                                                       8 => "Financial performance review by concerned officials",
+                                                       9 => "Access to Gov. Policies & Procedures on Accounts maintaenance and other related matters",
+                                                       10 => "Auditee Policies and Procedures"
+                                                     ];
+                                                     
+                                                     //$res = array_diff_key($items,$item_lists);
+                                                     $rslt = array_intersect_key( $item_lists , array_flip( $items ) );
+                                                     $res = array_diff_key($item_lists,$rslt);
+                                                     //print_r($res);
+                                                     if(count($res) == 1){
+                                                       echo "<p style='color:red'>All Fields are selected</p>";
+                                                       $msg = "display:none";
+                                                     }
+
+                  ?>   
+                  <div class="after-add-more subdiv" id="subdiv" style="<?php echo $msg; ?>">
                     <div class="row">
                       <div class="col-md-12 lbl">
                         
                         <div class="col-md-5">
                           <div class="form-group">
                             <select  class="form-control assessment"  id="asmnt_" name="assessment[]" required>
-                              <option value="0">  Select Assessment Aspect</option>
-                              <option value="1">Cash Managemet</option>
-                              <option value="2">Bank Reconciliations</option>
-                              <option value="3">Funds/Grants Management</option>
+                                 <?php foreach($res as  $key => $item) {
+                                                              
+                                       ?>
+                                         <option value="<?php echo $key ?>" > <?php echo $item ?></option>
+                                                        
+                                <?php } ?>
                             </select>
                           </div>
                         </div>

@@ -165,26 +165,27 @@ border: 2px solid #fff;
   <script>
   $(document).ready(function() {
   
-  if ( sessionStorage.type=="success" ) {
-            $('#alert_msg').show();
-              console.log(123);
-             $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-             closeAlertBox();
-               //sessionStorage.reloadAfterPageLoad = false;
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-       }
-     if(sessionStorage.type=="error")
-     {
-        $('#alert_msg').show();
+  // if ( sessionStorage.type=="success" ) {
+  //           $('#alert_msg').show();
+  //             console.log(123);
+  //            $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
+  //            closeAlertBox();
+  //              //sessionStorage.reloadAfterPageLoad = false;
+  //            sessionStorage.removeItem("message");
+  //            sessionStorage.removeItem("type");
+  //      }
+  //    if(sessionStorage.type=="error")
+  //    {
+  //       $('#alert_msg').show();
 
-             $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-             closeAlertBox();
+  //            $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
+  //            closeAlertBox();
 
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-     }
-
+  //            sessionStorage.removeItem("message");
+  //            sessionStorage.removeItem("type");
+  //    }
+   
+     showMessage();
 
      function frmvalidate(){
 
@@ -214,8 +215,6 @@ border: 2px solid #fff;
             return false;
         }
 
-       
-    
     return true;
 }
 

@@ -123,8 +123,8 @@ border: 2px solid #fff;
             padding-top: 20px;
             ">
              <form  id="frm_internal_review" method="POST"  >
-                 <div class=" right" style="float: right;" ><img src="../images/plus.png" />
-                <a  onclick="add_more_div();" href="Javascript:void(0);" style=" color:#1a629c; ">Add more</a></div>
+               <!--   <div class=" right" style="float: right;" ><img src="../images/plus.png" />
+                <a  onclick="add_more_div();" href="Javascript:void(0);" style=" color:#1a629c; ">Add more</a></div> -->
                 <br clear="all"/>
                       <div class="cmp_div" >
                      <?php 
@@ -151,7 +151,7 @@ border: 2px solid #fff;
                       }else{
                         ?>
 <!--                            <button class="btn btn-primary" name="save_complaince" > save</button> -->
-                          <input type="submit" class="btn btn-primary" name="save_complaince" value="Save" style="float: left;" />
+                          <input type="submit" class="btn btn-primary" name="save_complaince" id="btn_save" value="Add" style="float: left; display: none;" />
                         <?php
                       }
                      
@@ -168,10 +168,13 @@ border: 2px solid #fff;
                      <?php
                         if($row_cnt > 0){
                            include "internal_control_template_edit.php" ; 
+                           ?>
+                            <input type="submit" class="btn btn-primary"  id="save_assesment" value="Save All" onclick="save_all()" />
+                           <?php
                         }
   
                       ?>
-              
+                     
             </div>
              </fieldset>
            </div>
@@ -211,29 +214,32 @@ border: 2px solid #fff;
              sessionStorage.removeItem("type");
      }
 
-     // $('.assessment').change(function(){
-     //      var m = this.value;
-     //      //var id = $('.field-control').attr('id');
-     //     var id = this.id;
-     //     var myid = id.split('_');
-
-     //      //console.log(myid[1]);
-     //      if(m == 0){
-     //        $('#test_'+myid[1]).hide();
-     //      }
-     //      else{
-     //         $('#test_'+myid[1]).show();
-     //      }
-         
-     // });
-
-
-
 
   } );
 
+  //select one checkbox
+
+
+$('input[type=checkbox]').on('click',function(){
+            // in the handler, 'this' refers to the box clicked on
+  var $box = $(this);
+  if ($box.is(":checked")) {
+    // the name of the box is retrieved using the .attr() method
+    // as it is assumed and expected to be immutable
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    // the checked state of the group/box on the other hand will change
+    // and the current value is retrieved using .prop() method
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+  } else {
+    $box.prop("checked", false);
+  }
+})
+
+
   $(document).on('change' , '.assessment',function(){
-   
+
+           $('#btn_save').show();
           var m = this.value;
           //var id = $('.field-control').attr('id');
          var id = this.id;
@@ -250,12 +256,16 @@ border: 2px solid #fff;
      });
 
   tinymce.init({
-      selector: '.strong',
+      //selector: '.strong',
+        mode : "specific_textareas",
+        editor_selector : "strong"  
    
   });
 
    tinymce.init({
-      selector: '.weak'
+      //selector: '.weak'
+        mode : "specific_textareas",
+        editor_selector : "weak"  
   });
     
 
@@ -271,18 +281,8 @@ function create_div(){
 
        
        var num = Math.random().toString(16).slice(2);
-       //data.find(".subdiv").prop('id','subdiv_'+num);assessment
-       //var data = $(".subdiv").clone(true).appendTo(".cmp_div");
-       //tinymce.remove("#strong_"+num);
-       //tinymce.remove()
       
-//tinymce.execCommand('mceRemoveControl',false,'#strong_');
        var data = $("#subdiv").clone(true).attr('id', 'subdiv_'+ num).appendTo(".cmp_div");
-
-//        data.find('.mce-content-body').each(function () {
-//            var ids =   $(this).removeAttr('id');
-//            console.log(ids);
-// });
 
        data.find(".field-control").prop('id','test_'+num).attr('style', 'display:none');
        data.find(".assessment").prop('id','asmnt_'+num);
@@ -297,122 +297,6 @@ function create_div(){
        });
       
 }
-
-//add more div 
-
- var count = 0;
-
-function add_more_div(){
-
-count = count+1;
-      var  row = "";
-           row += '<div class="after-add-more subdiv" id="subdiv_'+count+'">'
-           row += '<div class="row">'
-           row +=            '<div class="col-md-12 lbl">'
-           row +=            ' <div class="col-md-3">'
-           row +=              '<label for="">Assessment Aspect</label>'
-           row +=             '</div>'
-           row +=             '<div class="col-md-5">'
-           row +=               '<div class="form-group">'
-           row +=                 '<select  class="form-control assessment"  id="asmnt_'+count+'" name="assessment[]" required>'
-           row +=                   '<option value="0">  Select Assessment Aspect</option>'
-           row +=                   '<option value="1">Cash Managemet</option>'
-           row +=                   '<option value="2">Bank Reconciliations</option>'
-           row +=                   '<option value="3">Funds/Grants Management</option>'
-           row +=                 '</select>'
-           row +=               '</div>'
-           row +=             '</div>'
-           row +=             '<div class="col-md-2">'
-                        
-           row +=             '</div>'
-           row +=             '<div class="col-md-2">'
-           row +=                 '<input type="button" class="btn btn-info" id="" name="view" value="View" onclick="show_div(this.id)">'
-           row +=                 '<input type="button" class="btn btn-danger remove" style="margin-left:5px;"  name="delete" value="Delete">'
-           row +=             '</div>'
-           row +=           '</div>'
-
-           row +=         '</div>'
-
-           row +=        '<div class ="field-control" id="test_'+count+'" style="display:none">'
-           row +=         '<div class="row" style="margin: 5px;">'
-           row +=           '<div class="col-md-6 lbl">'
-           row +=             '<label for="">Indication of Strong Controls  </label>'
-           row +=             '<div class="form-group">'
-           row +=                '<textarea  class="form-control strong2" name="strong[]" id="strong_'+count+'"></textarea>'
-           row +=             '</div>'
-           row +=           '</div>'
-           row +=           '<div class="col-md-6 lbl">'
-           row +=             '<label for="" style="margin-left: 15px;">Indication of Weak Controls </label>'
-           row +=             '<div class="form-group ">'
-           row +=               '<textarea  class="form-control weak2" name="weak[]" id="weak_'+count+'"></textarea>'
-           row +=             '</div>'
-           row +=           '</div>'
-           row +=           '<input type="hidden" name="save_complaince" value="save" ><input type="hidden" name="para_edit_id[]" value= -1 >'
-           row +=         '</div>'
-
-           row +=         '<div class="row" >'
-           row +=           '<div class="col-md-6 lbl" style="margin-top: 35px;">'
-           row +=             '<div class="col-md-4">'
-           row +=                '<label for="">Assessment Result </label>'
-           row +=             '</div>'
-                        
-           row +=             '<div class=" col-md-8 form-group ">'
-           row +=                  '<label class="checkbox-inline ">'
-           row +=                    '<input type="checkbox"  name = "checklist[]" value="1">Strong'
-           row +=                  '</label>'
-           row +=                  '<label class="checkbox-inline">'
-           row +=                    '<input type="checkbox"  name = "checklist[]"  value="2">Moderate'
-           row +=                  '</label>'
-           row +=                  '<label class="checkbox-inline">'
-           row +=                    '<input type="checkbox"   name = "checklist[]" value="3">Weak'
-           row +=                  '</label>'
-           row +=             '</div>'
-           row +=           '</div>'
-
-           row +=           '<div class="col-md-6 lbl">'
-           row +=             '<label for="">Recommendation for improvement  </label>'
-           row +=             '<div class="form-group" >'
-           row +=                '<textarea  class="form-control improvement1 txt" name="improvement[]" id="improvement" style="width: 490px;height: 120px;"></textarea>'
-           row +=             '</div>'
-           row +=           '</div>'
-                     
-           row +=         '</div>'
-
-           row +=          '</div>'
-                   
-           row +=       '</div>' ;
-
-  var N = $(".cmp_div > div").length;
-  var numItems = $('.subdiv').length
-  numItems = 0;
- console.log(numItems);
-
- if(numItems > 1){
-
-  $("#subdiv_"+count+"").after(row);
- }
- else{
-  $(".cmp_div").after(row);
- }
-  
-
-
-
-tinymce.init({
-      selector: '#strong_'+count+''
-  });
-
-   tinymce.init({
-      selector: '#weak_'+count+''
-  });
-}
-
-//remove div
-$("body").on("click",".remove",function(){
-$(this).parents(".subdiv").remove();
-});
-
-
 
 function remove(id){
    if (id == 123){
@@ -432,18 +316,32 @@ function remove(id){
 }
 
 function show_div(id){
-  //var id = $('.subdiv').attr('id');
-  //var ele = $(this).parents("#subdiv");
-  //$('#'+id).hide();
+
+  
+  $('.del_'+id).show();
+  $('.edit_'+id).show();
+  
+  // set readony proerty to fields
+  tinyMCE.get('strong_'+id).setMode("readonly");
+  tinyMCE.get('weak_'+id).setMode("readonly");
+  $('.checklist_edt').prop('disabled',true);
+
+
   $('#test_'+id).toggle();
   //$(this).toggleClass('class1');background: #d9534f;
 
   var color=$('#test_'+id).is(':hidden') ? '#296c0e' : '#1b7a7e';
   var text=$('#test_'+id).is(':hidden') ? 'View' : 'Hide';
 
+  var del = $('#test_'+id).is(':hidden') ? 'none' : '';
+
     $('#'+id).css({'background': color , 'content' :'Hide'});
     $('#'+id).val(text);
-  //console.log(id);
+
+   //hide del & edit on click hide btn 
+    $('.del_'+id).css({ "display": del});   
+     $('.edit_'+id).css({ "display": del});
+   
 }
 
 
@@ -496,10 +394,58 @@ $('#frm_internal_review').submit(function(e){
    }
 })
 
+//update from
+function edit_asmnt(id){
 
+  $('.edit_'+id).hide();
+  $('.update_'+id).show();
+
+  //disable readonly property of fields
+  $('#asmnt_'+id).prop('disabled',false);
+  //tinyMCE.get('strong_'+id).setMode("readonly",false);
+  tinyMCE.get('strong_'+id).getBody().setAttribute('contenteditable', true);
+  tinyMCE.get('weak_'+id).getBody().setAttribute('contenteditable', true);
+  $('input[type=checkbox]').prop('disabled',false);
+  $('.txt').prop('readonly',false);
+
+}
+
+  
+
+function update_asmnt(id){
+       var assment = $('#asmnt_'+id).val();
+       var strong = tinyMCE.get('strong_'+id).getContent();
+       var weak   = tinyMCE.get('weak_'+id).getContent();
+       var result = $('input[type=checkbox]:checked').val();
+       var improvement = $('#improvement_'+id).val();
+       var improvement = improvement.replace(/\s/g, '');
+   
+       $.ajax({
+         type:'POST',
+         url: 'ajax_internal_review',
+         data: {edit_id:id,assessment:assment,strong:strong,weak:weak,checklist:result,improvement:improvement,action:'update_assesment'},
+         success:function(res){
+              console.log(res);
+              sessionStorage.setItem('message', 'Assessment Aspect updated successfully') ; 
+              sessionStorage.setItem('type', 'success');
+               location.reload();
+         }
+       });
+
+}
 
 //delete functionlity
 function del_asmnt(id){
+  
+   var strong = tinyMCE.get('strong_'+id).getContent();
+   var weak = tinyMCE.get('weak_'+id).getContent();
+   
+      if(strong != '' && weak != ''){
+         $('.btn-dlt').prop('disabled', true);
+      }
+      else{
+         $('.btn-dlt').prop('disabled', false);
+      }
 
       $("#deleteComplainceModal_"+id).modal('show');
 }
@@ -519,6 +465,13 @@ function delete_record(id){
         window.location.reload();
     }
   } );
+}
+
+function save_all(){
+  console.log(123);
+   sessionStorage.setItem('message', 'Assessment Aspect added successfully') ;
+   sessionStorage.setItem('type', 'success') ;
+    window.location = 'manage_auditreport.php';
 }
 
 
