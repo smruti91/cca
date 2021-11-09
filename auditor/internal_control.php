@@ -320,6 +320,10 @@ function show_div(id){
   
   $('.del_'+id).show();
   $('.edit_'+id).show();
+
+  
+    //$(this).siblings().find('.subdiv').hide();
+
   
   // set readony proerty to fields
   tinyMCE.get('strong_'+id).setMode("readonly");

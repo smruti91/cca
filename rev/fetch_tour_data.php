@@ -73,6 +73,7 @@
   $remark              = $_POST['remark'];
   $tour_id             = $_POST['tour_id'];
   $dept_id             = $_POST['dept_id'];
+  $org_id              = $_POST['org_id'];
   $emp_id              = $_POST['emp_id'];
   $plan_id             = $_POST['plan_id'];
   //echo $tour_id;exit;
@@ -115,6 +116,7 @@
                    t_category,
                    emp_id,
                    dept_id,
+                   org_id,
                    year_of_account,
                    act_dt_commencent,
                    act_dt_completion,
@@ -125,7 +127,7 @@
                    remarks,
                    status
                    ) 
-                   values ($userid,'".$tour_for_month."',$plan_id,'".$plan_name."',$tour_catagory,$emp_id,$dept_id,$years_of_acc,'".$act_dt_commencement."','".$act_dt_completion."','".$dt_commencement."','".$dt_completion."','".$purpose."',$distance,'".$remark."','draft')";
+                   values ($userid,'".$tour_for_month."',$plan_id,'".$plan_name."',$tour_catagory,$emp_id,$dept_id,$org_id,$years_of_acc,'".$act_dt_commencement."','".$act_dt_completion."','".$dt_commencement."','".$dt_completion."','".$purpose."',$distance,'".$remark."','draft')";
       //echo $sql;exit;
     // $insert=generateSQL($sql,array($userid,$tour_for_month,$plan_id,$plan_name,$tour_catagory,$emp_id,$dept_id,$years_of_acc,$act_dt_commencement,$act_dt_completion,$dt_commencement,$dt_completion,$purpose,$distance,$remark,'draft'),true,$mysqli);
 

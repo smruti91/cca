@@ -17,7 +17,7 @@
        foreach( $result as $para_row ){
            $assment = $para_row['assmnt_aspt'];
        	?>
-       
+          <div class="controls">
        	   <div class="after-add-more subdiv" id="subdiv_<?php echo $para_row['id'] ?>">
                     <div class="row">
                       <div class="col-md-12 lbl">
@@ -105,7 +105,7 @@
                      </div>
                    
                   </div>
-
+                  </div>
                 
                    <!-- Delete Modal HTML -->
                                                   <div id="deleteComplainceModal_<?php echo  $para_row['id'] ;?>" class="modal fade">

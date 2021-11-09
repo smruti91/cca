@@ -458,6 +458,7 @@ function send_record(id)
 function add_tour(){
   var tour_for_month      = $('#t_month').val();
   var plan_name           = $('#planName option:selected').html();
+  var org_id              = $('#planName option:selected').val();
   var tour_catagory       = $('#tour_catagory option:selected').val();
   var years_of_acc        = $('#financialYear').val();
   var act_dt_commencement = $('#act_dt_commencement').val();
@@ -476,7 +477,7 @@ function add_tour(){
   if(plan_name !='' && plan_name !='')
   {
      
-    $.post('fetch_tour_data.php',{action:'add',tour_for_month:tour_for_month,plan_name:plan_name,tour_catagory:tour_catagory,years_of_acc:years_of_acc,act_dt_commencement:act_dt_commencement,act_dt_completion:act_dt_completion,dt_commencement:dt_commencement,dt_completion:dt_completion,purpose:purpose,distance:distance,remark:remark,tour_id:tour_id,dept_id:dept_id,emp_id:emp_id,plan_id:plan_id},
+    $.post('fetch_tour_data.php',{action:'add',tour_for_month:tour_for_month,plan_name:plan_name,tour_catagory:tour_catagory,years_of_acc:years_of_acc,act_dt_commencement:act_dt_commencement,act_dt_completion:act_dt_completion,dt_commencement:dt_commencement,dt_completion:dt_completion,purpose:purpose,distance:distance,remark:remark,tour_id:tour_id,dept_id:dept_id,emp_id:emp_id,org_id:org_id,plan_id:plan_id},
        function (res){
         console.log(res);
         var element = res.split('#');

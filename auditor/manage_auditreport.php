@@ -107,11 +107,11 @@ height:100%;
                       <?php
                         if($res_row['id']!='2' && $res_row['id']!='4' && $res_row['id']!='3'){
                         	$paraid=$res_row['id'];
-                        	//echo "SHOW TABLES LIKE 'cca_para".$res_row['id']."'";
-                        	if ($result_exists = $mysqli->query("SHOW TABLES LIKE 'cca_para".$res_row['id']."'")) {
+                        	//echo "SHOW TABLES LIKE 'cca_para_".$res_row['id']."'";
+                        	if ($result_exists = $mysqli->query("SHOW TABLES LIKE 'cca_para_".$res_row['id']."'")) {
 									    if($result_exists->num_rows == 1) {
-									       $sql_para1  = mysqli_query($mysqli,"SELECT * FROM `"."cca_para".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ");
-									          //echo "SELECT * FROM `"."cca_para".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ";
+									       $sql_para1  = mysqli_query($mysqli,"SELECT * FROM `"."cca_para_".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ");
+									         // echo "SELECT * FROM `"."cca_para_".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ";
                         	 				$res_rows=mysqli_fetch_array($sql_para1); 
 									                //print_r($res_rows);
 									// else {
@@ -122,7 +122,7 @@ height:100%;
                         	// print_r($res_rows);
                         	 if(!empty($res_rows)){
                         	 	?>
-                        	 	<td style="background-color: #e6e6e5;"><a href="javascript: ccadatapost('<?php echo $res_row['page_url'];?>',{para_id:'<?php echo $res_row['id'];?>'});" class="btn btn-primary">Edit</a></td>
+                        	 	<td style="background-color: #e6e6e5;"><a href="javascript: ccadatapost('<?php echo $res_row['page_url'];?>',{para_id:'<?php echo $res_row['id'];?>', edit_id: 1});" class="btn btn-primary">Edit</a></td>
 
                         	 <?php }else{
                         	 	?>
@@ -146,7 +146,7 @@ height:100%;
                        // echo 'SELECT * from `cca_paragraph` where para_category=1 and para_id="'.$res_row['para_id'].'"';
                        while($res_rowsubhead=mysqli_fetch_assoc($result_subhead)){ 
 
-                       // print_r($res_rowsubhead);
+                        //print_r($res_rowsubhead);
 						     $x;  
                        	?>
                           <tr>
@@ -167,6 +167,9 @@ height:100%;
                                 }
                                  else  if($res_rowsubhead['id'] == 15){
                                    $table = 'cca_para_3d';
+                                }
+                                else  if($res_rowsubhead['id'] == 5){
+                                   $table = 'cca_para_5';
                                 }
                                 else{
                                 	 $table = 'cca_para_'.$res_row['para_id'].$x;
