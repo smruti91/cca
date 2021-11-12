@@ -24,7 +24,8 @@ if (isset($_POST['mngplan_id'])){
 
   $orgname= find_institutionname($res_row['org_id'],$mysqli);
   $team_name=find_teamname($res_row['team_id'],$mysqli);
-
+  
+  print_r($_SESSION);
 ?>
 <style>
 div.main{
@@ -50,6 +51,9 @@ height:100%;
           <div class="col-sm-12 text-center"> 
           	<div class="bckbtn" onclick="history.back(-1)"><img src="../images/backb.png" /><b>Back</b></div>
             <h1>Manage Audit Report</h1>
+              <div class="bckbtn" style="float:right;margin-top: -50px;"><img src="../images/report_icon3.png" /><a href="audit_report.php">Report</a></div>
+            <!-- <div class="right" ><img style="width: 15px;" src="../images/report_icon3.png" />
+                <a  onclick="get_complince_report();" href="Javascript:void(0);" style=" color:#1a629c; ">Report</a></div> -->
             <hr>
             <div style="width: 100%;background-color: #42c19f2e; padding: 12px;border: 3px solid #2daab0;">
               <div style="width:33%;float:left;">

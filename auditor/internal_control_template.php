@@ -11,8 +11,7 @@
                        while ($item_row  = mysqli_fetch_assoc($sql_para_res)) {
                                   // print_r($item_row); 
                                    $items[] = $item_row['assmnt_aspt'];
-                                    
-                                   
+                                  
                                  }   ;
                       // remove selected item from dropdown
                                        $item_lists = [

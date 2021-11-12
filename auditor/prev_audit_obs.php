@@ -107,6 +107,8 @@ border: 2px solid #fff;
             padding-top: 20px;
             ">
              <form  id="obs_form" method="POST" action="ajax_prev_auditObs.php" >
+                <div class="right" style="float: left;" ><img style="width: 15px;" src="../images/report_icon3.png" />
+                <a  onclick="get_complince_report();" href="Javascript:void(0);" style=" color:#1a629c; ">Report</a></div>
                  <div class=" right" style="float: right;" ><img src="../images/plus.png" />
                 <a  onclick="get_complince_html_row();" href="Javascript:void(0);" style=" color:#1a629c; ">Add another Complaince</a></div>
                 <br clear="all"/>
@@ -145,6 +147,30 @@ border: 2px solid #fff;
                           </div>
                     </div>
               </form>
+
+              <!-- Report Modal HTML -->
+                                              <div id="reportComplainceModal" class="modal fade">
+                                                <div class="modal-dialog" style="width: 1300px;">
+                                                  <div class="modal-content">
+                                                   
+                                                      <div class="modal-header">            
+                                                        <h4 class="modal-title">Complaince Report </h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                      </div>
+                                                      <div class="modal-body">          
+                                                        <?php
+                                                             include "prev_audit_obs_report.php";
+                                                         ?>
+                                                       
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                        
+                                                      </div>
+                                                   
+                                                  </div>
+                                                </div>
+                                              </div>
               
             </div>
              </fieldset>
@@ -165,25 +191,6 @@ border: 2px solid #fff;
   <script>
   $(document).ready(function() {
   
-  // if ( sessionStorage.type=="success" ) {
-  //           $('#alert_msg').show();
-  //             console.log(123);
-  //            $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-  //            closeAlertBox();
-  //              //sessionStorage.reloadAfterPageLoad = false;
-  //            sessionStorage.removeItem("message");
-  //            sessionStorage.removeItem("type");
-  //      }
-  //    if(sessionStorage.type=="error")
-  //    {
-  //       $('#alert_msg').show();
-
-  //            $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-  //            closeAlertBox();
-
-  //            sessionStorage.removeItem("message");
-  //            sessionStorage.removeItem("type");
-  //    }
    
      showMessage();
 
@@ -195,11 +202,7 @@ border: 2px solid #fff;
        //console.log(year);
        
         $(".error").remove();
-         //console.log(audit_no);
-        // if (audit_no.length < 1) {
-        //     $('#audit_no').after('<span class="error"> * Audit No. Not valid</span>');
-        //     return false;
-        // }
+        
         
         if (year.length < 4) {
             $('#year').after('<span class="error"> * Year not valid</span>');
@@ -358,5 +361,8 @@ function delete_record(id){
   } );
 }
 
+function get_complince_report(){
+   $('#reportComplainceModal').modal('show');
+}
 
 </script>
