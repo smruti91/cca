@@ -12,7 +12,7 @@
                                     <th >Sl.No</th>
                                     <th style="width:150px" >Name of the Official </th>
                                     <th style="width:150px">GPF / E-HRMS id  </th>
-                                    <th style="width:150px">Scheme/Cash Book</th>
+                                    <th style="width:150px">Cash Book</th>
                                     <th style="width:165px">Amount Out standing as on </th>
                                     <th style="width:150px">Amount paid during the audit period</th>
                                     <th style="width:150px">Amount Adjusted during the audit period</th>

@@ -19,12 +19,14 @@ $res_row=mysqli_fetch_array($manageplansql);
 $orgname= find_institutionname($res_row['org_id'],$mysqli);
 $team_name=find_teamname($res_row['team_id'],$mysqli);
 $_SESSION['paraid']=$_POST['para_id'];
-//print_r($res_row);
 
 }
 
- $edit_id =  $_POST['edit_id'];
- //echo $edit_id;
+ $sql_para  = " SELECT * FROM cca_para_2b WHERE para_id = '".$_SESSION['paraid']."' AND mngplan_id = '".$manageplan_id."' AND version = 0 " ; 
+ $sql_para_res   = mysqli_query($mysqli,$sql_para);
+ $row_cnt = $sql_para_res->num_rows;
+ $edit_id = 0;
+
 ?>
 <style>
 div.main{
@@ -59,6 +61,7 @@ border: 2px solid #fff;
        <div id="alert_msg" ></div> 
       <div class="row content">
         <div class="col-sm-12 text-center">
+           <div class="bckbtn" onclick="location.href='manage_auditreport'"><img src="../images/backb.png" /><b>Back</b></div>
           <h1>Manage Audit Report</h1>
           <hr>
           <div style="    width: 100%;
@@ -103,17 +106,14 @@ border: 2px solid #fff;
             margin: 10px auto;
             padding-top: 20px;
             ">
-             <form action="ajax_persistent_irreg.php" method="POST" id="irreg_form" >
+             <form  method="POST" id="irreg_form" >
                  <div class=" right" style="float: right;" ><img src="../images/plus.png" />
-                <a  onclick="get_notice_html_row();" href="Javascript:void(0);" style=" color:#1a629c; ">Add another Notice</a></div>
+                <a  onclick="add_more();" href="Javascript:void(0);" style=" color:#1a629c; ">Add more</a></div>
                 <br clear="all"/>
                       <div class="cmp_div" >
                      <?php 
-                      if($edit_id == 1 ){
-                        include "irreg_template_edit.php" ; 
-                      }else{
-                         include "irreg_template.php" ; 
-                      }
+
+                        include "irreg_template.php" ; 
                      
                      ?>
                      </div>
@@ -122,26 +122,24 @@ border: 2px solid #fff;
                           
                          </div>
                           <div class="col-md-6">
-                             <?php 
-                      if($edit_id == 1 ){
-                       ?>
-                         <!--  <button class="btn btn-primary" name="Update_irreg" > Update</button> -->
-                          <input type="submit" class="btn btn-primary" name="Update_irreg" value="Update" />
-                       <?php
-                      }else{
-                        ?>
-                          <!--  <button class="btn btn-primary" name="save_irreg" > save</button> -->
-                          <input type="submit" class="btn btn-primary" name="save_irreg" value="Save" />
-                        <?php
-                      }
-                     
 
-                     ?>
-                            
+                            <input type="submit" class="btn btn-primary btn_save" name="save_irreg" value="Save" style="display:  <?php echo $row_cnt > 0 ? 'none' : ''  ?>"/>
                            
                           </div>
                     </div>
               </form>
+
+              <hr>
+
+                <?php
+                   if($row_cnt > 0){
+                      include "irreg_template_edit.php" ; 
+                      ?>
+                       <!-- <input type="button" class="btn btn-primary"  id="save_assesment" value="Save All" onclick="save_all()" /> -->
+                      <?php
+                   }
+                
+                 ?>
               
             </div>
              </fieldset>
@@ -162,130 +160,137 @@ border: 2px solid #fff;
   <script>
   $(document).ready(function() {
   
-  if ( sessionStorage.type=="success" ) {
-            $('#alert_msg').show();
-              console.log(123);
-             $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-             closeAlertBox();
-               //sessionStorage.reloadAfterPageLoad = false;
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-       }
-     if(sessionStorage.type=="error")
-     {
-        $('#alert_msg').show();
+   showMessage();
 
-             $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-             closeAlertBox();
-
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-     }
+  closeAlertBox();
 
      
  tinymce.init({
-      selector: '.irreg_notice'
+     // selector: '.irreg_notice'
+        mode : "specific_textareas",
+        editor_selector : "irreg_notice"  
   });
-
-
-
-      function frmvalidate(){
-
-       
-         var irreg_notice = tinymce.get("irreg_notice").getContent();
-       
-          
-            irreg_notice = irreg_notice.replace(/^\<p\>/,"").replace(/\<\/p\>$/,"");
-        
-         $(".error").remove();
-          //console.log(year.length);
-        
-
-        
-         if( irreg_notice.length < 1 ){
-            $('#irreg_notice').after('<span class="error"> * This field should not be Empty</span>');
-             return false;
-         }
-     
-     return true;
- }
-
-
-   $('#irreg_form').submit(function(e){
-        e.preventDefault();
-
-         frmvalidate();
-         
-        if( frmvalidate() ){
-          $('#irreg_form')[0].submit();
-        }
-
-    })
-
 
 
   } );
 
- 
-  
+       function frmvalidate(){
 
-   function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
+        
+          var irreg_notice = tinymce.get("irreg_notice").getContent();
+        
+           
+             irreg_notice = irreg_notice.replace(/^\<p\>/,"").replace(/\<\/p\>$/,"");
+         
+          $(".error").remove();
+          
+          if( irreg_notice.length < 1 ){
+             $('#irreg_notice').after('<span class="error"> * This field should not be Empty</span>');
+              return false;
+          }
+      
+      return true;
+  }
 
 
-  var count = 0;
-  function get_notice_html_row(){
-  count = count+1;
+    $('#irreg_form').submit(function(e){
+         e.preventDefault();
 
- 
-  var  html = "";
-  html +=  '   <div class="after-add-more control-group subdiv" id="rowdiv_'+count+'"><button type="button" class="close remove" style="color:red;" aria-label="Close"><span aria-hidden="true">&times;</span></button><br>'
-  html+= ' <div class="col-md-3"><label class="control-label">Irregularities noticed </label></div>'
-  html+= ' <div class="row"  style="margin: 5px;">'
-  html+= ' <div class="col-md-12">'
-                        
-  html+=  '<div class="form-group  ">'
-  html+=      '<textarea  class="form-control irreg_notice" name="irreg_notice[]" ></textarea>'
-  html +=    '</div><input type="hidden" name="irreg_edit_id[]" value= -1 >'
-  html+= '</div>'
-  html+= '</div>'  
-  html +=   '</div>' ;
+         if( frmvalidate() ){
+           tinyMCE.triggerSave();
+           $.ajax({
+               type: 'POST',
+               url: 'ajax_persistent_irreg',
+               data: $('#irreg_form').serialize(),
+               success: function(res){
+                 console.log(res);
+                 sessionStorage.setItem('message', 'Audit Observations and Compliance added successfully') ; 
+                 sessionStorage.setItem('type', 'success');
+                 location.reload();
+                 
+               }
+           })
+         }
 
-var N = $(".cmp_div > div").length;
- 
-if(N){
+     })
 
-$(".cmp_div").after(html);
-  tinymce.init({
-      selector: '.irreg_notice'
-  });
+
+function add_more(){
+  $('.subdiv').show();
+  $('.btn_save').show();
 }
-else{
-cnt = count-1;
+     function show_div(id){
 
-$("#rowdiv_"+cnt).after(html);
-}
-//console.log(html);
+   
+    $('.del_'+id).show();
+    $('.edit_'+id).show();
 
-}
+    // set readony proerty to fields
+    tinyMCE.get('irreg_notice'+id).setMode("readonly");
+    
+     $('#test_'+id).toggle();
+    
+    var color = $('#test_'+id).is(':hidden') ? '#296c0e' : '#1b7a7e';
+    var text  = $('#test_'+id).is(':hidden') ? 'View' : 'Hide';
+
+    var del   = $('#test_'+id).is(':hidden') ? 'none' : '';
+
+      $('.view_'+id).css({'background': color });
+      $('.view_'+id).val(text);
+     
+
+     //hide del & edit on click hide btn 
+      $('.del_'+id).css({ "display": del});   
+      $('.edit_'+id).css({ "display": del});
+     
+  }
+
+  function edit_irreg(id){
+
+      $('.edit_'+id).hide();
+      $('.update_'+id).show();
+     tinyMCE.get('irreg_notice'+id).getBody().setAttribute('contenteditable', true);
+  }
+
+  //update form
+
+  function update_cmp(id){
+
+         var irreg_notice   = tinyMCE.get('irreg_notice'+id).getContent();
+        
+         $.ajax({
+           type:'POST',
+           url: 'ajax_persistent_irreg',
+           data: {edit_id:id,irreg_notice:irreg_notice,action:'Update_irreg'},
+           success:function(res){
+               console.log(res);
+                sessionStorage.setItem('message', 'Assessment Aspect updated successfully') ; 
+                sessionStorage.setItem('type', 'success');
+                 location.reload();
+           }
+         });
+
+  }
 
 $("body").on("click",".remove",function(){
 $(this).parents(".control-group").remove();
 });
 
+function del_irreg(id){
+    var irreg_notice    = tinyMCE.get('irreg_notice'+id).getContent();
 
+         if(irreg_notice != '' ){
+                $('.btn-dlt').prop('disabled', true);
+            }
+           else{
+                $('.btn-dlt').prop('disabled', false);
+             }
 
-
-function del_cmp(id){
-
-      $("#deleteComplainceModal_"+id).modal('show');
+      $("#deleteIrregeModal_"+id).modal('show');
 }
 
 function delete_record(id){
- var $ele = $("#deleteComplainceModal_"+id).parent().parent();
+ var $ele = $("#deleteIrregeModal_"+id).parent().parent();
   $.post('ajax_persistent_irreg.php',{action:'delete',edit_id:id },
   function(res){
     console.log(res);

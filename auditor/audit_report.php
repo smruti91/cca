@@ -15,18 +15,33 @@
           5  => "cca_para_5"
       ];
       ?>
-           
+     <style>
+        div.main{
+           height:100%;
+        }
+        .report{
+            border:1px solid black;
+            margin:20px;
+            padding:20px;
+            border-radius: 20px;
+            background-color: #f4f6f6;
+        }
+    </style> 
 
          <div class="page-wrapper" 
               style="height: 100%;
               width: 90%;
-              background-color: #fff;"
+              background-color: #fff;
+              padding: 20px 30px;
+              "
           >
              
            <div style="text-align:center; padding: 5px;">
                <h2>COMMON AUDIT REPORT </h2>
+               <a href="print_audit_report.php">print</a>
            </div>
            <hr>
+           <div class="report">
       <?php
       foreach ($para_list as $para_id => $table) {
 
@@ -50,6 +65,9 @@
             case 16:
                 include "internal_control_report.php";
                 break;
+            case 5:
+                include "result_audit_report.php";
+                break;
       	   	
       	   
       	   }
@@ -57,5 +75,7 @@
  ?>
 </div>
   </div>
+  </div>
+  <?php include "footer.php"; ?>
 </body>
 </html>

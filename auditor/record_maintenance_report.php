@@ -65,7 +65,7 @@
                   <p style="font-weight: 500;">(ii)  Consequences of non-maintenance of records.</p>
 
                         <textarea 
-                           style="width: 60%;height: 30%;margin: 20px;border: 1px solid black;"
+                           style="width: 60%;height: 35vh;margin: 20px;border: 1px solid black;"
                          >
                          <?php echo $text ; ?>
                              

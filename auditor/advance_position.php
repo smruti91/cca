@@ -125,7 +125,7 @@ border: 2px solid #fff;
                           <th style="width:10px" >Sl.No</th>``
                           <th>Name of the Official</th>
                           <th>GPF/e-HRMS Id</th>
-                          <th>Scheme/Cash Book </th>
+                          <th>Cash Book </th>
                           <th>Amount Out standing as on </th>
                           <th>Amount paid during the audit period</th>
                           <th>Amount Adjusted</th>
@@ -195,68 +195,35 @@ border: 2px solid #fff;
   <script>
   $(document).ready(function() {
   
-  if ( sessionStorage.type=="success" ) {
-            $('#alert_msg').show();
-              console.log(123);
-             $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-             closeAlertBox();
-               //sessionStorage.reloadAfterPageLoad = false;
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-       }
-     if(sessionStorage.type=="error")
-     {
-        $('#alert_msg').show();
-
-             $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-             closeAlertBox();
-
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-     }
-
-
-
     $('#frm_dtl_advnc').submit(function(e){
         e.preventDefault();
 
           $('#frm_dtl_advnc')[0].submit();
-
     })
 
+  });
 
-  } );
+  showMessage();
 
-  
-   function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
+  closeAlertBox();
+
 
   function create_tr(){
       
      var num = Math.random().toString(16).slice(2)
      
      var data = $("#dtl_advnc tr:eq(1)").clone(true).appendTo("#dtl_advnc");
-    // console.log(data);
+    
          data.find("input").val('');
          data.find("input").prop('id','test_'+num);
          data.find("a").prop('id','0');
-        //console.log(data.find("input").length);
-
-       // var nodes = document.querySelectorAll(".test");
-       
-       // for(var i = 0; i < nodes.length; i++) {
-       //       nodes[i].setAttribute("id", "test_"+i);
-       //     }
-      
+        
   }
  
  function remove(id){
   
    var ele = document.getElementById("0");
-       //alert();
+      
     if(id == 0){
          remove_tr(ele);
      
@@ -264,9 +231,7 @@ window.setTimeout(function () {
     else{
         
       $('#deleteAdvanceModal_'+id).modal()
-      
-
-
+     
     }
     
  }
@@ -329,14 +294,13 @@ $('#dtl_advnc tr').each(function(i){
 });
 
 function delete_record(id){
- //var $ele = $("#deleteComplainceModal_"+id).parent().parent();
+ 
   $.post('ajax_advance_position.php',{action:'delete',edit_id:id },
+    
   function(res){
-    console.log(res);
+   
     if(res=='success'){
-       // $("#deleteEmployeeModal_"+id).hide();
-       // $(".modal-backdrop").hide();
-       // $ele.fadeOut().remove();
+      
        sessionStorage.setItem("type", "error");
        sessionStorage.setItem("message", "Record Deleted Successfully");
 

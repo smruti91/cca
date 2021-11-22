@@ -18,20 +18,16 @@ if(isset($_POST['para_id'])){
    $_SESSION['paraid']=$para_id;
 }
 
-//$_SESSION['save_id'] = '';
-//echo $para_id;
-//print_r($_SESSION);
 if (isset($_SESSION['mngplan_id'])){
 $manageplan_id=$_SESSION['mngplan_id'];
 $manageplansql= mysqli_query($mysqli,"select plan_name,org_id,team_id,audit_start_date,audit_end_date from cca_manageplan m,cca_plan p where m.plan_id=p.id and m.id='".$manageplan_id."'");
 $res_row=mysqli_fetch_array($manageplansql);
 $orgname= find_institutionname($res_row['org_id'],$mysqli);
 $team_name=find_teamname($res_row['team_id'],$mysqli);
-//$_SESSION['paraid']=$para_id;
-//print_r($res_row);
+
 
 }
-//$edit_id =  $_POST['edit_id'];
+
 if(isset($_POST['edit_id'])){
    $edit_id = $_POST['edit_id'] ;
 }
@@ -47,7 +43,7 @@ else{
    $save_id = $_SESSION['save_id'];
  }
 
- //echo  $save_id;
+
 
 ?>
 <style>
@@ -266,6 +262,9 @@ font-weight: bold;
 $(document).ready(function() {
 
   showMessage();
+
+
+  closeAlertBox();
 //submit form
 
 $('#frm_dtl_advnc').submit(function(e){
@@ -297,6 +296,7 @@ $('#frm_records_mtnc').submit(function(e) {
 
 
 } );
+
 function frmvalidate(){
 var c=document.getElementsByTagName('input');
 console.log('c',c)

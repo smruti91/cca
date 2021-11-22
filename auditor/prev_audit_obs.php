@@ -22,8 +22,14 @@ $_SESSION['paraid']=$_POST['para_id'];
 //print_r($res_row);
 
 }
+ 
+      $sql_para  = " SELECT * FROM cca_para_2a WHERE para_id = '".$_SESSION['paraid']."' AND mngplan_id = '".$manageplan_id."' AND version = 0 "; 
+      $sql_para_res   = mysqli_query($mysqli,$sql_para);
+     
+      $row_cnt = $sql_para_res->num_rows;
+      
+      $edit_id =  0;
 
- $edit_id =  $_POST['edit_id'];
 ?>
 <style>
 div.main{
@@ -61,7 +67,8 @@ border: 2px solid #fff;
        <div id="alert_msg" ></div> 
       <div class="row content">
         <div class="col-sm-12 text-center">
-          <button class="btn btn-warning bckbtn" onclick="history.back(-1)"><img src="../images/backb.png" /><b>Back</b></button>
+       
+          <div class="bckbtn" onclick="location.href='manage_auditreport'"><img src="../images/backb.png" /><b>Back</b></div>
           <h1>Manage Audit Report</h1>
           <hr>
           <div style="    width: 100%;
@@ -106,20 +113,17 @@ border: 2px solid #fff;
             margin: 10px auto;
             padding-top: 20px;
             ">
-             <form  id="obs_form" method="POST" action="ajax_prev_auditObs.php" >
+             <form  id="obs_form" method="POST"  >
                 <div class="right" style="float: left;" ><img style="width: 15px;" src="../images/report_icon3.png" />
                 <a  onclick="get_complince_report();" href="Javascript:void(0);" style=" color:#1a629c; ">Report</a></div>
                  <div class=" right" style="float: right;" ><img src="../images/plus.png" />
-                <a  onclick="get_complince_html_row();" href="Javascript:void(0);" style=" color:#1a629c; ">Add another Complaince</a></div>
+               <!--  <a  onclick="get_complince_html_row();" href="Javascript:void(0);" style=" color:#1a629c; ">Add another Complaince</a></div> -->
+                <a  onclick="add_more();" href="Javascript:void(0);" style=" color:#1a629c; ">Add more</a></div>
                 <br clear="all"/>
                       <div class="cmp_div" >
                      <?php 
-                      if($edit_id == 1 ){
-                        include "prev_complaince_template_edit.php" ; 
-                      }else{
-                         include "prev_complaince_template.php" ; 
-                      }
-                     
+                          include "prev_complaince_template.php" ;
+                                          
                      ?>
                      </div>
               <div class="row">
@@ -130,13 +134,11 @@ border: 2px solid #fff;
                              <?php 
                       if($edit_id == 1 ){
                        ?>
-                          <!-- <button  class="btn btn-primary" name="Update_complaince" > Update</button> -->
-                          <input type="submit" class="btn btn-primary" name="Update_complaince" value="Update" />
+                             <input type="submit" class="btn btn-primary" name="Update_complaince" value="Update" />
                        <?php
                       }else{
                         ?>
-<!--                            <button class="btn btn-primary" name="save_complaince" > save</button> -->
-                          <input type="submit" class="btn btn-primary" name="save_complaince" value="Save" />
+                          <input type="submit" class="btn btn-primary btn_save" style="display:  <?php echo $row_cnt > 0 ? 'none' : ''  ?>" name="save_complaince" value="Save" />
                         <?php
                       }
                      
@@ -148,29 +150,17 @@ border: 2px solid #fff;
                     </div>
               </form>
 
-              <!-- Report Modal HTML -->
-                                              <div id="reportComplainceModal" class="modal fade">
-                                                <div class="modal-dialog" style="width: 1300px;">
-                                                  <div class="modal-content">
-                                                   
-                                                      <div class="modal-header">            
-                                                        <h4 class="modal-title">Complaince Report </h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                      </div>
-                                                      <div class="modal-body">          
-                                                        <?php
-                                                             include "prev_audit_obs_report.php";
-                                                         ?>
-                                                       
-                                                      </div>
-                                                      <div class="modal-footer">
-                                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                        
-                                                      </div>
-                                                   
-                                                  </div>
-                                                </div>
-                                              </div>
+              <hr>
+
+                <?php
+                   if($row_cnt > 0){
+                      include "prev_complaince_template_edit.php" ; 
+                      ?>
+                       <!-- <input type="button" class="btn btn-primary"  id="save_assesment" value="Save All" onclick="save_all()" /> -->
+                      <?php
+                   }
+                
+                 ?>
               
             </div>
              </fieldset>
@@ -193,155 +183,168 @@ border: 2px solid #fff;
   
    
      showMessage();
-
-     function frmvalidate(){
-
-        var year        = $('#year').val();
-        var no_obs_para = $('#no_obs_para').val();
-        var audit_no    = $('#audit_no').val();
-       //console.log(year);
-       
-        $(".error").remove();
-        
-        
-        if (year.length < 4) {
-            $('#year').after('<span class="error"> * Year not valid</span>');
-            return false;
-        }
-        if (isNaN(year)) {
-            $('#year').after('<span class="error"> * Year not valid</span>');
-            return false;
-        }
-
-        if( no_obs_para < 1 ){
-           $('#no_obs_para').after('<span class="error"> * Not a Number</span>');
-            return false;
-        }
-
-    return true;
-}
-
-    $('#obs_form').submit(function(e){
-        e.preventDefault();
-
-         frmvalidate();
-         
-        if( frmvalidate() ){
-          $('#obs_form')[0].submit();
-        }
-
-    })
-
+     closeAlertBox();
 
   } );
 
+  $('#obs_form').submit(function(e){
+        e.preventDefault();
+
+
+        if(frmvalidate()){
+           
+           tinyMCE.triggerSave();
+           $.ajax({
+               type: 'POST',
+               url: 'ajax_prev_auditObs',
+               data: $('#obs_form').serialize(),
+               success: function(res){
+                 console.log(res);
+                 sessionStorage.setItem('message', 'Audit Observations and Compliance added successfully') ; 
+                 sessionStorage.setItem('type', 'success');
+                 location.reload();
+                 
+               }
+           })
+        }
+
+    });
+
+       function frmvalidate(){
+
+          var year        = $('#year').val();
+          var no_obs_para = $('#no_obs_para').val();
+          var audit_no    = $('#audit_no').val();
+         //console.log(year);
+         
+          $(".error").remove();
+          
+          
+          if (year.length < 4) {
+              $('#year').after('<span class="error"> * Year not valid</span>');
+              return false;
+          }
+          if (isNaN(year)) {
+              $('#year').after('<span class="error"> * Year not valid</span>');
+              return false;
+          }
+
+          if( no_obs_para < 1 ){
+             $('#no_obs_para').after('<span class="error"> * Not a Number</span>');
+              return false;
+          }
+
+      return true;
+  }
+
   tinymce.init({
-      selector: '.audit_obs1'
-  });
-
-   tinymce.init({
-      selector: '.complaince1'
-  });
-
-   function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
-
-
-  var count = 0;
-  function get_complince_html_row(){
-  count = count+1;
- 
-  var  html = "";
-  html +=  '   <div class="after-add-more control-group subdiv" id="rowdiv_'+count+'"><button type="button" class="close remove" style="color:red;" aria-label="Close"><span aria-hidden="true">&times;</span></button><br><div class="row">'
-      html +=           '<div class="col-md-6 lbl">'
-      html +=           '<div class="col-md-4">'
-      html +=              ' <label for="">Audit Type</label>'
-      html +=             '</div>'
-      html +=             '<div class="col-md-8">'
-      html +=              '<div class="form-group">'
-      html +=                '<select  class="form-control" name="audit_type[]" required>'
-      html +=                  '<option>  Audit Type</option>'
-      html +=                   '<option>IR</option>'
-      html +=                  '<option>IAR</option>'
-      html +=                  '<option>EAR</option>'
-      html +=                '</select>'
-      html +=             '</div>'
-      html +=           '</div>'
-      html +=        '</div>'
-      html +=       '<div class="col-md-6 lbl">'
-      html +=       '<div class="col-md-7">'
-      html +=           '<label for="">Audit Report No.</label>'
-      html +=       '</div>'
-      html +=      '<div class="col-md-5">'
-      html +=       '<input type="text" class="form-control" name="audit_no[]"  id="audit_no" placeholder="Audit Report No." required>'
-      html +=          '</div>'
-      html +=        '</div>'
-       html +=  '</div>'
-      html +=              '<div class="row">'
-      html +=                 '<div class="col-md-6 lbl">'
-      html +=                    '<div class="col-md-4">'
-      html +=                       '<label for="">Year</label>'
-      html +=                    '</div>'
-      html +=                   '<div class="col-md-8">'
-      html +=                    '<input type="text" class="form-control" name="year[]"  id="year" placeholder="Year of accounts" required>'
-      html +=                 '</div>'
-      html +=              '</div>'
-      html +=              '<div class="col-md-6 lbl">'
-      html +=               '<div class="col-md-7">'
-      html +=                  '<label for="">No. of objection paras  </label>'
-      html +=              '</div>'
-      html +=              '<div class="col-md-5">'
-      html +=                '<input type="text" class="form-control" name="no_obs_para[]"  id="no_obs_para" placeholder="No. of Paras"  required>'
-      html +=             '</div>'
-      html +=           '</div>'
-      html +=        '</div>'
-      html +=     '<div class="row" style="margin: 5px;">'
-      html +=       '<div class="col-md-6 lbl">'
-      html +=         '<label for="">Audit Observation </label>'
-      html +=        '<div class="form-group">'
-      html +=          '<textarea  class="form-control audit_obs2" name="audit_obs[]" style="height:150px" ></textarea>'
-      html +=        '</div>'
-      html +=     '</div>'
-      html +=     '<div class="col-md-6 lbl">'
-      html +=       '<label for="" style="margin-left: 15px;">Complaince </label>'
-      html +=      '<div class="form-group">'
-      html +=       '<textarea  class="form-control complaince2" name="complaince[]"   style="height:150px" ></textarea>'
-      html +=    '</div><input type="hidden" name="para_edit_id[]" value= -1 >'
      
-  
-      html +=  '</div>'
-      html +=   '</div>' ;
-
-var N = $(".cmp_div > div").length;
- 
-if(N){
-
-$(".cmp_div").after(html);
-tinymce.init({
-      selector: '.audit_obs2'
+        mode : "specific_textareas",
+        editor_selector : "audit_obs"  
   });
 
    tinymce.init({
-      selector: '.complaince2'
+    
+        mode : "specific_textareas",
+        editor_selector : "complaince"  
   });
-}
-else{
-cnt = count-1;
 
-$("#rowdiv_"+cnt).after(html);
-}
-//console.log(html);
-}
-$("body").on("click",".remove",function(){
-$(this).parents(".control-group").remove();
-});
+   function add_more(){
+     $('.subdiv').show();
+     $('.btn_save').show();
 
+   }
+
+   function show_div(id){
+
+ 
+  $('.del_'+id).show();
+  $('.edit_'+id).show();
+
+  // set readony proerty to fields
+  tinyMCE.get('audit_obs_'+id).setMode("readonly");
+  tinyMCE.get('complaince_'+id).setMode("readonly");
+  $('#audit_no_'+id).prop('disabled',true);
+  $('#year_'+id).prop('disabled',true);
+  $('#no_obs_para_'+id).prop('disabled',true);
+
+   $('#test_'+id).toggle();
+  
+  var color = $('#test_'+id).is(':hidden') ? '#296c0e' : '#1b7a7e';
+  var text  = $('#test_'+id).is(':hidden') ? 'View' : 'Hide';
+
+  var del   = $('#test_'+id).is(':hidden') ? 'none' : '';
+
+    $('.view_'+id).css({'background': color });
+    $('.view_'+id).val(text);
+   
+
+   //hide del & edit on click hide btn 
+    $('.del_'+id).css({ "display": del});   
+    $('.edit_'+id).css({ "display": del});
+   
+}
+
+//Edit from
+function edit_cmp(id){
+
+  $('.edit_'+id).hide();
+  $('.update_'+id).show();
+
+  //disable readonly property of fields
+  $('#audit_type_'+id).prop('disabled',false);
+  $('#audit_no_'+id).prop('disabled',false);
+  $('#year_'+id).prop('disabled',false);
+  $('#no_obs_para_'+id).prop('disabled',false);
+  
+  tinyMCE.get('audit_obs_'+id).getBody().setAttribute('contenteditable', true);
+  tinyMCE.get('complaince_'+id).getBody().setAttribute('contenteditable', true);
+ 
+
+}
+
+//update form
+
+function update_cmp(id){
+
+       var audit_type =  $('#audit_type_'+id).val();
+       var audit_no   =  $('#audit_no_'+id).val();
+       var year       =  $('#year_'+id).val();
+       var no_obs_para   =  $('#no_obs_para_'+id).val();
+
+       var audit_obs    = tinyMCE.get('audit_obs_'+id).getContent();
+       var complaince   = tinyMCE.get('complaince_'+id).getContent();
+      
+   
+       $.ajax({
+         type:'POST',
+         url: 'ajax_prev_auditObs',
+         data: {edit_id:id,audit_type:audit_type,audit_no:audit_no,year:year,no_obs_para:no_obs_para,audit_obs:audit_obs,complaince:complaince,action:'Update_complaince'},
+         success:function(res){
+             
+              sessionStorage.setItem('message', 'Assessment Aspect updated successfully') ; 
+              sessionStorage.setItem('type', 'success');
+               location.reload();
+         }
+       });
+
+}
+
+//delete functionlity
 function del_cmp(id){
+  
+       var audit_obs    = tinyMCE.get('audit_obs_'+id).getContent();
+       var complaince   = tinyMCE.get('complaince_'+id).getContent();
+   
+      if(audit_obs != '' && complaince != ''){
+         $('.btn-dlt').prop('disabled', true);
+      }
+      else{
+         $('.btn-dlt').prop('disabled', false);
+      }
 
-      $("#deleteComplainceModal_"+id).modal('show');
+       $("#deleteComplainceModal_"+id).modal('show');
+       //$("#deleteComplainceModal_"+id).modal('show');
 }
 
 function delete_record(id){
@@ -360,6 +363,12 @@ function delete_record(id){
     }
   } );
 }
+
+$("body").on("click",".remove",function(){
+$(this).parents(".control-group").remove();
+});
+
+
 
 function get_complince_report(){
    $('#reportComplainceModal').modal('show');

@@ -16,25 +16,23 @@ if( isset($_POST['para_id']) && $_POST['para_id'] != ''){
   $_SESSION['paraid']=$_POST['para_id'];
 }
 
+
 if (isset($_SESSION['mngplan_id'])){
 $manageplan_id=$_SESSION['mngplan_id'];
 $manageplansql= mysqli_query($mysqli,"select plan_name,org_id,team_id,audit_start_date,audit_end_date from cca_manageplan m,cca_plan p where m.plan_id=p.id and m.id='".$manageplan_id."'");
 $res_row=mysqli_fetch_array($manageplansql);
 $orgname= find_institutionname($res_row['org_id'],$mysqli);
 $team_name=find_teamname($res_row['team_id'],$mysqli);
-//$_SESSION['paraid']=$_POST['para_id'];
-//print_r($res_row);
 
 }
 
-//print_r($_SESSION);
 
      $sql_para  = " SELECT * FROM cca_para_4a WHERE para_id = '".$_SESSION['paraid']."' AND mngplan_id = '".$manageplan_id."' AND version = 0 ";
-     //echo $sql_para;
+    
      $sql_para_res   = mysqli_query($mysqli,$sql_para);
-     //print_r($sql_para_res);
-      $row_cnt = $sql_para_res->num_rows;
- $edit_id =  0;
+    
+     $row_cnt = $sql_para_res->num_rows;
+     $edit_id =  0;
 
 
 ?>
@@ -129,11 +127,7 @@ border: 2px solid #fff;
                       <div class="cmp_div" >
                      <?php 
                        include "internal_control_template.php" ; 
-                      // if($edit_id == 1 ){
-                      //   include "internal_control_template_edit.php" ; 
-                      // }else{
-                      //    include "internal_control_template.php" ; 
-                      // }
+                     
                      
                      ?>
                      </div>
@@ -145,12 +139,12 @@ border: 2px solid #fff;
                              <?php 
                       if($edit_id == 1 ){
                        ?>
-                          <!-- <button  class="btn btn-primary" name="Update_complaince" > Update</button> -->
+                         
                           <input type="submit" class="btn btn-primary" name="Update_complaince" value="Update" style="float: left;" />
                        <?php
                       }else{
                         ?>
-<!--                            <button class="btn btn-primary" name="save_complaince" > save</button> -->
+
                           <input type="submit" class="btn btn-primary" name="save_complaince" id="btn_save" value="Add" style="float: left; display: none;" />
                         <?php
                       }
@@ -194,25 +188,9 @@ border: 2px solid #fff;
   <script>
   $(document).ready(function() {
   
-  if ( sessionStorage.type=="success" ) {
-            $('#alert_msg').show();
-              console.log(123);
-             $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-             closeAlertBox();
-               //sessionStorage.reloadAfterPageLoad = false;
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-       }
-     if(sessionStorage.type=="error")
-     {
-        $('#alert_msg').show();
+  showMessage();
 
-             $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-             closeAlertBox();
-
-             sessionStorage.removeItem("message");
-             sessionStorage.removeItem("type");
-     }
+  closeAlertBox();
 
 
   } );
@@ -267,13 +245,7 @@ $('input[type=checkbox]').on('click',function(){
         mode : "specific_textareas",
         editor_selector : "weak"  
   });
-    
-
-   function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
+ 
 
 //clone div under check
 
@@ -322,18 +294,13 @@ function show_div(id){
   $('.edit_'+id).show();
 
   
-    //$(this).siblings().find('.subdiv').hide();
-
-  
-  // set readony proerty to fields
   tinyMCE.get('strong_'+id).setMode("readonly");
   tinyMCE.get('weak_'+id).setMode("readonly");
   $('.checklist_edt').prop('disabled',true);
 
 
   $('#test_'+id).toggle();
-  //$(this).toggleClass('class1');background: #d9534f;
-
+  
   var color=$('#test_'+id).is(':hidden') ? '#296c0e' : '#1b7a7e';
   var text=$('#test_'+id).is(':hidden') ? 'View' : 'Hide';
 
@@ -377,11 +344,8 @@ $('#frm_internal_review').submit(function(e){
 
    e.preventDefault();
 
-    frmvalidate();
-    //console.log(id);
-
    if(frmvalidate()){
-      //$('#frm_internal_review')[0].submit();
+     
       tinyMCE.triggerSave();
       $.ajax({
           type: 'POST',
@@ -406,15 +370,12 @@ function edit_asmnt(id){
 
   //disable readonly property of fields
   $('#asmnt_'+id).prop('disabled',false);
-  //tinyMCE.get('strong_'+id).setMode("readonly",false);
   tinyMCE.get('strong_'+id).getBody().setAttribute('contenteditable', true);
   tinyMCE.get('weak_'+id).getBody().setAttribute('contenteditable', true);
   $('input[type=checkbox]').prop('disabled',false);
   $('.txt').prop('readonly',false);
 
 }
-
-  
 
 function update_asmnt(id){
        var assment = $('#asmnt_'+id).val();
