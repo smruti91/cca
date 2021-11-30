@@ -20,9 +20,8 @@ $manageplansql= mysqli_query($mysqli,"select plan_name,org_id,team_id,audit_star
 $res_row=mysqli_fetch_array($manageplansql);
 $orgname= find_institutionname($res_row['org_id'],$mysqli);
 $team_name=find_teamname($res_row['team_id'],$mysqli);
-  
-}
 
+}
 $edit_id = isset($_POST['edit_id'])?$_POST['edit_id']:0;
 ?>
 <style>
@@ -63,7 +62,7 @@ color: orange;
       <div id="alert_msg" ></div>
       <div class="row content">
         <div class="col-sm-12 text-center">
-          <button class="btn btn-warning bckbtn" onclick="history.back(-1)"><img src="../images/backb.png" /><b>Back</b></button>
+          <div class="bckbtn" onclick="location.href='manage_auditreport'"><img src="../images/backb.png" /><b>Back</b></div>
           <h1>Manage Audit Report</h1>
           <hr>
           <div style="    width: 100%;
@@ -186,46 +185,34 @@ color: orange;
 <script src="../tinymce/tinymce.min.js"></script>
 <script>
 $(document).ready(function() {
-
-  showMessage();
-
-  closeAlertBox();
-
+showMessage();
+closeAlertBox();
 tinymce.init({
 selector: '.audit_result',
-
 });
 });
-
-
 //form validte
 function frmvalidate(){
 var audit_result = tinyMCE.get('audit_result').getContent();
-
 if (audit_result == '') {
 $('.audit_result').after('<span class="error"> * This field can not be blank</span>');
 return false;
 }
-
 return true;
 }
 //save form
 $('#frm_audit_result').submit(function(e){
 e.preventDefault();
-
 if(frmvalidate()){
-
 tinyMCE.triggerSave();
 $.ajax({
 type: 'POST',
 url: 'ajax_audit_result',
 data: $('#frm_audit_result').serialize(),
 success: function(res){
-
 sessionStorage.setItem('message', 'Audit Result ' +res+ ' successfully') ;
 sessionStorage.setItem('type', 'success');
 window.location = 'manage_auditreport.php'
-
 }
 })
 }

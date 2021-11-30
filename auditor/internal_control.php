@@ -75,7 +75,7 @@ border: 2px solid #fff;
        <div id="alert_msg" ></div> 
       <div class="row content">
         <div class="col-sm-12 text-center">
-          <button class="btn btn-warning bckbtn" onclick="history.back(-1)"><img src="../images/backb.png" /><b>Back</b></button>
+           <div class="bckbtn" onclick="location.href='manage_auditreport'"><img src="../images/backb.png" /><b>Back</b></div>
           <h1>Manage Audit Report</h1>
           <hr>
           <div style="    width: 100%;

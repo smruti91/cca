@@ -79,6 +79,9 @@ $userid = (($_SESSION['userid'] && $_SESSION['userid']>0)?$_SESSION['userid']:-1
         <div class="col-sm-3 actext">
              <div  class="dash_div"><a href="view_circular">Circular/Notice</a></div>
             </div>
+            <div class="col-sm-3 actext">
+             <div  class="dash_div"><a href="report.php">Report</a></div>
+            </div>
       <?php }
     ?>
     </div>

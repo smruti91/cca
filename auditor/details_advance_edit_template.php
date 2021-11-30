@@ -23,7 +23,7 @@
                        <tr>
                             <td>&nbsp;</td>
                             <td> <input type="text" class="form-control" name="advnc_outstanding_asOn[]" value=" <?php echo $para_row['advnc_outstd_asOn']; ?>" required> </td>
-                            <td> <input type="text" class="form-control" name="cashBook[]" value=" <?php echo $para_row['cash_book']; ?>" required> </td>
+                            <td> <input type="text" class="form-control cbook" name="cashBook[]" value=" <?php echo $para_row['cash_book']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="amut_outStanding[]" value=" <?php echo $para_row['amnt_outstd']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="amut_paid_audit_period[]" value=" <?php echo $para_row['amnt_paid_atAudit']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="amut_adjust[]" value=" <?php echo $para_row['amnt_adjusted']; ?>" required> </td>

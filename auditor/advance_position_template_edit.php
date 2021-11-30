@@ -24,7 +24,7 @@
                             <td>&nbsp;</td>
                             <td> <input type="text" class="form-control" name="offical_name[]" value=" <?php echo $para_row['offical_name']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="gpf_Ehrms_id[]" value=" <?php echo $para_row['gpf_Ehrms_id']; ?>" required> </td>
-                            <td> <input type="text" class="form-control" name="scheme_cashBook[]" value=" <?php echo $para_row['scheme_cash_book']; ?>" required> </td>
+                            <td class="cbook"> <input type="text" class="form-control" name="scheme_cashBook[]" value=" <?php echo $para_row['scheme_cash_book']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="amut_outStanding[]" value=" <?php echo $para_row['amnt_outstd']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="amut_paid_audit_period[]" value=" <?php echo $para_row['amnt_paid_atAudit']; ?>" required> </td>
                             <td> <input type="text" class="form-control" name="amut_adjust[]" value=" <?php echo $para_row['amnt_adjusted']; ?>" required> </td>

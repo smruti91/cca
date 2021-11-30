@@ -201,6 +201,8 @@ border: 2px solid #fff;
           $('#frm_dtl_advnc')[0].submit();
     })
 
+
+
   });
 
   showMessage();
@@ -266,6 +268,8 @@ function remove_tr(This){
    }
  
 }
+
+
 
 
 $('.outStanding_cashBook').keyup(function(event) {

@@ -25,7 +25,7 @@ if (isset($_POST['mngplan_id'])){
   $orgname= find_institutionname($res_row['org_id'],$mysqli);
   $team_name=find_teamname($res_row['team_id'],$mysqli);
   
-  print_r($_SESSION);
+  //print_r($_SESSION);
 ?>
 <style>
 div.main{
@@ -52,8 +52,7 @@ height:100%;
           	<div class="bckbtn" onclick="history.back(-1)"><img src="../images/backb.png" /><b>Back</b></div>
             <h1>Manage Audit Report</h1>
               <div class="bckbtn" style="float:right;margin-top: -50px;"><img src="../images/report_icon3.png" /><a href="audit_report.php">Report</a></div>
-            <!-- <div class="right" ><img style="width: 15px;" src="../images/report_icon3.png" />
-                <a  onclick="get_complince_report();" href="Javascript:void(0);" style=" color:#1a629c; ">Report</a></div> -->
+           
             <hr>
             <div style="width: 100%;background-color: #42c19f2e; padding: 12px;border: 3px solid #2daab0;">
               <div style="width:33%;float:left;">
@@ -103,7 +102,7 @@ height:100%;
                     <?php
                       $result= mysqli_query($mysqli,'SELECT * from `cca_paragraph` where para_category=0 ');
                      while($res_row=mysqli_fetch_assoc($result)){
-                      //print_r($res_row);
+                      
                     ?>
                     <tr>
                       <td style="text-align:left;background-color: #e6e6e5;"><b><?php echo $res_row['para_head']; ?></b></td>
@@ -111,19 +110,13 @@ height:100%;
                       <?php
                         if($res_row['id']!='2' && $res_row['id']!='4' && $res_row['id']!='3'){
                         	$paraid=$res_row['id'];
-                        	//echo "SHOW TABLES LIKE 'cca_para_".$res_row['id']."'";
+                        	
                         	if ($result_exists = $mysqli->query("SHOW TABLES LIKE 'cca_para_".$res_row['id']."'")) {
 									    if($result_exists->num_rows == 1) {
 									       $sql_para1  = mysqli_query($mysqli,"SELECT * FROM `"."cca_para_".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ");
-									         // echo "SELECT * FROM `"."cca_para_".$paraid."` WHERE para_id = '".$paraid."'  AND mngplan_id = '".$manageplan_id."' and add_by='".$_SESSION['userid']."' ";
+									      
                         	 				$res_rows=mysqli_fetch_array($sql_para1); 
-									                //print_r($res_rows);
-									// else {
-									//     echo "Table does not exist";
-									// }
-									                        	 
-
-                        	// print_r($res_rows);
+									                
                         	 if(!empty($res_rows)){
                         	 	?>
                         	 	<td style="background-color: #e6e6e5;"><a href="javascript: ccadatapost('<?php echo $res_row['page_url'];?>',{para_id:'<?php echo $res_row['id'];?>', edit_id: 1});" class="btn btn-primary">Edit</a></td>
@@ -147,11 +140,11 @@ height:100%;
                     <?php
                        $result_subhead= mysqli_query($mysqli,'SELECT * from `cca_paragraph` where para_category=1 and para_id="'.$res_row['para_id'].'"'); 
                        $x = 'a';
-                       // echo 'SELECT * from `cca_paragraph` where para_category=1 and para_id="'.$res_row['para_id'].'"';
+                      
                        while($res_rowsubhead=mysqli_fetch_assoc($result_subhead)){ 
 
-                        //print_r($res_rowsubhead);
-						     $x;  
+                       
+						                     $x;  
                        	?>
                           <tr>
                             <td style="text-align:left;"><?php echo $res_rowsubhead['para_head']; ?></td>
@@ -227,33 +220,11 @@ height:100%;
  $(document).ready(function() {
    $('#tableid').DataTable();
    
-   if ( sessionStorage.type=="success" ) {
-             $('#alert_msg').show();
-              
-              $("#alert_msg").addClass("alert alert-success").html(sessionStorage.message);
-              closeAlertBox();
-                //sessionStorage.reloadAfterPageLoad = false;
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-        }
-      if(sessionStorage.type=="Error")
-      {
-         $('#alert_msg').show();
+    showMessage();
 
-              $("#alert_msg").addClass("alert alert-danger").html(sessionStorage.message);
-              closeAlertBox();
-
-              sessionStorage.removeItem("message");
-              sessionStorage.removeItem("type");
-      }
-
+    closeAlertBox();
 } );
 
-function closeAlertBox(){
-window.setTimeout(function () {
-  $("#alert_msg").fadeOut(300)
-}, 3000);
-} 
 </script>
 
 

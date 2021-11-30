@@ -209,7 +209,7 @@ border: 2px solid #fff;
 
   } );
 
-  
+ 
 
   function create_tr(){
       
@@ -278,6 +278,20 @@ function remove_tr(This){
  
 }
 
+       var oldSize = parseFloat($(".cbook").css('font-size'));
+       var newSize = oldSize  * 2;
+       
+
+  $('.cbook').mouseenter(function() {
+         $(this).animate({ width:"250px"},200);
+       
+               
+    });
+  $('.cbook').mouseleave(function() {
+         $(this).animate({ width:"100px"},200);
+       
+               
+    });
 
 $('.outStanding_cashBook').keyup(function(event) {
   

@@ -15,6 +15,7 @@ exit;
 if (isset($_SESSION['mngplan_id'])){
 $manageplan_id=$_SESSION['mngplan_id'];
 $manageplansql= mysqli_query($mysqli,"select plan_name,org_id,team_id,audit_start_date,audit_end_date from cca_manageplan m,cca_plan p where m.plan_id=p.id and m.id='".$manageplan_id."'");
+echo "select plan_name,org_id,team_id,audit_start_date,audit_end_date from cca_manageplan m,cca_plan p where m.plan_id=p.id and m.id='".$manageplan_id."'";
 $res_row=mysqli_fetch_array($manageplansql);
 $orgname= find_institutionname($res_row['org_id'],$mysqli);
 $team_name=find_teamname($res_row['team_id'],$mysqli);
@@ -344,7 +345,7 @@ function del_cmp(id){
       }
 
        $("#deleteComplainceModal_"+id).modal('show');
-       //$("#deleteComplainceModal_"+id).modal('show');
+       
 }
 
 function delete_record(id){

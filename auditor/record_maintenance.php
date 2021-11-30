@@ -273,7 +273,7 @@ e.preventDefault();
 if( frmvalidate() ){
 
 $('#frm_dtl_advnc')[0].submit();
-//console.log('success',12345)
+
 }
 else{
 alert("You must check atleast one of the checkboxes");
@@ -299,7 +299,7 @@ $('#frm_records_mtnc').submit(function(e) {
 
 function frmvalidate(){
 var c=document.getElementsByTagName('input');
-console.log('c',c)
+
 for (var i = 0; i<c.length; i++){
 if (c[i].type=='checkbox')
 {
